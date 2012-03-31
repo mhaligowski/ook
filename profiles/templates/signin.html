@@ -1,0 +1,59 @@
+{% extends "profiles_base.html" %}
+
+    {% block content %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif%}
+    
+    <form class="form-horizontal" method="post" action="" >
+      {% csrf_token %}
+      <legend>Please enter your data to proceed</legend>
+
+      <fieldset>
+        <!-- login -->
+        <div class="control-group {% if form.errors.identification %}error{% endif %}">
+          <label class="control-label" for="id_username">Email</label>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">@</span><input class="span4" id="id_username" size="16" type="text" name="identification" value="{{ form.identification.value|default_if_none:"" }}" />
+              <span class="help-inline">{% if form.errors.identification %} {{ form.errors.identification }} {% endif %}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- password -->
+        <div class="control-group {% if form.errors.password %}error{% endif %}">
+          <label for="id_password" class="control-label">Password</label>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">&nbsp;</span><input id="id_password" type="password" name="password" class="span4" size="16" />
+              <span class="help-inline">{% if form.errors.password %} {{ form.errors.password }} {% endif %}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- le checkbox -->
+        <div class="control-group">
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" id="remember" name="remember_me">Remember the password for one month
+            </label>
+          </div>
+        </div>
+        <!-- buttons -->
+        <div class="form-actions">
+          <input type="submit" value="Login" class="btn btn-primary btn-large" />
+          <input type="hidden" name="next" value="{{ next }}" />
+          <a class="btn btn-large" href="/accounts/signup">Register</a>
+        </div>
+      </fieldset>
+    </form>
+    {% endblock %}
+

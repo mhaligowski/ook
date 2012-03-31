@@ -1,0 +1,61 @@
+{% extends "profiles_base.html" %}
+
+    {% block content %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+    {% endif%}
+    
+    <form class="form-horizontal" method="post" action="" >
+      {% csrf_token %}
+      <legend>Please enter your data to register</legend>
+
+      <fieldset>
+        <!-- email -->
+        <div class="control-group {% if form.errors.email %}error{% endif %}">
+          <label class="control-label" for="id_email">Email</label>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">@</span><input class="span4" id="id_email" size="16" type="text" name="email" value="{{ form.email.value|default_if_none:"" }}" />
+              <span class="help-inline">{{ form.errors.email|default_if_none:""}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- password -->
+        <div class="control-group {% if form.errors.password1 %}error{% endif %}">
+          <label for="id_password1" class="control-label">Password</label>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">&nbsp;</span><input id="id_password1" type="password" name="password1" class="span4" size="16" />
+              <span class="help-inline">{{ form.errors.password1|default_if_none:"" }}</span>
+            </div>
+          </div>
+        </div>
+
+                <!-- password -->
+        <div class="control-group {% if form.errors.password2 %}error{% endif %}">
+          <label for="id_password2" class="control-label">Repeat password</label>
+
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">&nbsp;</span><input id="id_password2" type="password" name="password2" class="span4" size="16" />
+              <span class="help-inline">{{ form.errors.password2|default_if_none:"" }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" value="Register" class="btn btn-primary btn-large" />
+          <input type="hidden" name="next" value="{{ next }}" />
+        </div>
+      </fieldset>
+    </form>
+    {% endblock %}
+
