@@ -8,3 +8,6 @@ eggs/
 *.pyc
 *.komodoproject
 *.db
+ook/media/js/ook.js
+ook/media/js/template.js
+ook/media/js/templates.js

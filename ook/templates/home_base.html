@@ -11,9 +11,36 @@
 </head>
 
 <body>
-  {% load url from future %}
-
     {% block head %}
+    <!-- add list modal -->    
+    <div id="add-booklist-modal" class="modal hide fade">
+        <div class="modal-header">              
+            <a class="close" data-dismiss="modal" >&times;</a>
+            <h3>Add new booklist</h3>
+       </div> <!-- modal-header -->
+
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="control-group" id="add-booklist-modal-input">
+                        <label for="add-booklist-modal-input" class="control-label">New booklist name</label>
+                        <div class="controls" >
+                            <input type="text" class="input-xlarge" placeholder="Type the name here..." name="booklist_name">
+                            <p class="help-block hide" id="add-booklist-modal-success">Success</p>
+                            <p class="help-block hide" id="add-booklist-modal-error">Error!</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div> <!-- modal body -->
+
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" >Close</a>
+            <button id="add-booklist-modal-add-button" class="btn btn-primary" data-loading-text="loading...">Add booklist</button>
+        </div><!-- modal footer -->
+    </div><!-- modal -->
+
+    <!-- navbar -->
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -22,19 +49,32 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Ook</a>
-          <div class="nav-collapse">
+
+          <!-- logo -->
+        <a class="brand" href="#">Ook</a>
+
+        <div class="nav-collapse">
             <ul class="nav">
               <li class="divider-vertical"></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle"><i class="icon-book icon-white"></i><b class="caret"></b></a>
+
+              <!-- booklists -->
+              <li class="dropdown" id="navbar-books">
+                <a href="#" class="dropdown-toggle">Books<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">List 1</a></li>
-                    <li><a href="#">List 2</a></li>
+                    <li class="nav-header">Booklists</li>
+                    {% autoescape off %} {{ booklists_html }} {% endautoescape %}
+                    <li class="divider"></li>
+                    <li class="nav-header">Booklists tools</li>
+                    <li><a href="#add-booklist-modal" data-toggle="modal"><i class="icon-plus"></i>New list...</a></li>
+                    <li><a href="#"><i class="icon-pencil"></i>Edit lists</a></li>
                 </ul>
               </li>
+              
+              <!-- second -->
               <li class="divider-vertical"></li>
               <li><a href="#about"><i class="icon-heart icon-white"></i></a></li>
+              
+              <!-- third -->
               <li class="divider-vertical"></li>
               <li><a href="#contact"><i class="icon-inbox icon-white"></i></a></li>
               <li class="divider-vertical"></li>
@@ -67,5 +107,9 @@
     <script src="{{ MEDIA_URL }}/js/bootstrap-collapse.js"></script>
     <script src="{{ MEDIA_URL }}/js/bootstrap-carousel.js"></script>
     <script src="{{ MEDIA_URL }}/js/bootstrap-typeahead.js"></script>
+    <script src="{{ MEDIA_URL }}/js/hogan-2.0.0.js"></script>
+    
+    <script src="{{ MEDIA_URL }}/js/templates.js"></script>
+    <script src="{{ MEDIA_URL }}/js/ook.js"></script>
 </body>
 </html>

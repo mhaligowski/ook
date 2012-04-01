@@ -102,6 +102,8 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
 )
 
+MUSTACHE_TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "hogan")
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,6 +122,7 @@ INSTALLED_APPS = (
     
     # my modules
     'profiles',
+    'books',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -7,7 +7,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^accounts', include('profiles.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -16,7 +15,14 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     # home
-    (r'^home/', direct_to_template, {'template':'home_base.html'}),
+    (r'^home/', 'ook.views.home_view'),
+    
+    # account management
+    (r'^accounts', include('profiles.urls')),
+    
+    # rest api
+    (r'^api', include('api.urls')),
+    
 )
 
 if settings.DEBUG:
