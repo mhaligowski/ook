@@ -1,0 +1,52 @@
+<!-- navbar -->
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <!-- logo -->
+    <a class="brand" href="#">Ook</a>
+
+    <div class="nav-collapse">
+        <ul class="nav">
+          <li class="divider-vertical"></li>
+
+          <!-- booklists -->
+          <li class="dropdown" id="navbar-books">
+            <a href="#" class="dropdown-toggle">Books<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="nav-header">Booklists</li>
+                {% autoescape off %} {{ booklists_html }} {% endautoescape %}
+                <li class="divider"></li>
+                <li class="nav-header">Booklists tools</li>
+                <li><a href="#add-booklist-modal" data-toggle="modal"><i class="icon-plus"></i>New list...</a></li>
+                <li><a href="#"><i class="icon-pencil"></i>Edit lists</a></li>
+            </ul>
+          </li>
+          
+          <!-- Readers -->
+          <li class="divider-vertical"></li>
+          <li><a href="#contact">Readers</a></li>
+          <li class="divider-vertical"></li>
+
+          <!-- profile -->
+          <li class="divider-vertical"></li>
+          <li class="dropdown" id="navbar-me">
+            <a href="#about" class="dropdown-toggle">Me<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li class="nav-header">{{ user.email }}</li>
+                <li><a href="/accounts/signout/">Sign out</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+          </li>
+          
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
