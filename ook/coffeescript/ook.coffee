@@ -7,6 +7,17 @@ init = ->
     
     # init buttons
     $('.btn').button()
+    
+    ###
+    Keep the height of the page constant
+    ###
+    $(window).resize ->
+        top_padding = $('body')
+            .css('padding-top')
+            .replace("px","")
+        footer_size = $('#page-footer-container').height()
+        new_height = $(window).height() - top_padding - footer_size
+        $(".main-view").height new_height
 
 init_handlers = ->
     ###

@@ -1,0 +1,51 @@
+@import "bootstrap.less";
+
+/*
+ * Page elems
+*/
+body { padding-top:50px; }
+
+.main-view {
+    overflow: auto;
+}
+
+#page-footer-container {
+    height: 100px;
+}
+
+/*
+* Bookist items
+*/
+.booklist-item {
+    width: 278px;
+    background-color:@grayLighter; 
+    overflow:hidden;
+    position: relative;
+    padding: 10px;
+    margin-bottom: 10px;
+    .border-radius(5px);
+    .box-shadow(0 0 3px lighten(@gray, 20%));
+}
+
+.booklist-item > div {
+    float:left
+}
+
+.booklist-item > .booklet-image {
+  margin-right: 10px;
+}
+
+.booklist-item > .data-container {
+    width: 156px;
+    margin-right: 10px
+}
+
+.booklist-item > .toolkit-container {
+    height:100%;
+
+}
+
+.booklist-item > .toolkit-container > .icon {
+    margin-bottom: 5px;
+}
+
