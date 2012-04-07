@@ -1,22 +1,67 @@
 
 <div class="container main-view" id="booklist-view">
-  <div class="page-header">
-    <h1>A Booklist!</h1>
-  </div>
+  
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+   
+        <a class="brand">A booklist</a>
+        
+        <ul class="nav">
+          <li>
+            <a href="#">Add new book</a>
+          </li> <!-- add new book -->
+          
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">View<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li class="nav-header">Books per page</li>
+              <li><a href="#" class="booklist-view-per-page" data-per-page="9">9<i class="icon-ok"></i></a></li>
+              <li><a href="#" class="booklist-view-per-page" data-per-page="18">18</a></li>
+              <li><a href="#" class="booklist-view-per-page" data-per-page="36">36</a></li>
+              <li class="divider"></li>
+              <li class="nav-header">Sort by</li>
+              <li><a href="#">Title</a></li>
+              <li><a href="#">Author</a></li>
+            </ul>
+          </li> <!-- view options -->
+        </ul> 
+        
+        <form class="navbar-search pull-left">
+          <input type="text" class="search-query" placeholder="Search">
+        </form>
+        
+      </div> <!-- container -->
+    </div> <!-- navbar-inner -->
+  </div> <!-- navbar -->
 
+  <!-- pagination -->
+  <div class="pagination pagination-centered">
+    <ul>
+      <li class="pagination-nav prev"><a href="#">«</a></li>
+      <li class="pagination-nav next"><a href="#">»</a></li>
+    </ul>
+  </div>
+  
+  <!-- books row -->
   <div class="row">
-    <!-- left column -->
-    <div class="span4">
+    <div id="booklist">
       <!-- item 1 -->
       <div class="booklist-item">       
               <!-- booklet container -->
               <div class="booklet-image thumbnail">
-                <img src="http://placehold.it/80x100" alt="Booklet">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
               </div>
               
               <!-- data container -->
               <div class="data-container">
-                  <h4>Płukanie gardła i inne historie</h4>
+                  <h5>Płukanie gardła i inne historie</h5>
                   <h6>Stefan Prykalski</h6>
               </div>
               
@@ -32,12 +77,12 @@
       <div class="booklist-item">       
               <!-- booklet container -->
               <div class="booklet-image thumbnail">
-                <img src="http://placehold.it/80x100" alt="Booklet">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
               </div>
               
               <!-- data container -->
               <div class="data-container">
-                  <h4>Bekanie na zawołanie</h4>
+                  <h5>Bekanie na zawołanie</h5>
                   <h6>Dorota Rabczewska</h6>
               </div>
               
@@ -53,12 +98,12 @@
       <div class="booklist-item">       
               <!-- booklet container -->
               <div class="booklet-image thumbnail">
-                <img src="http://placehold.it/80x100" alt="Booklet">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
               </div>
               
               <!-- data container -->
               <div class="data-container">
-                  <h4>Dupa mnie boli - katalog dolegliwości gastrycznych</h4>
+                  <h5>Dupa mnie boli - katalog dolegliwości gastrycznych</h5>
                   <h6>Paweł Miłobędzki</h6>
               </div>
               
@@ -75,12 +120,12 @@
       <div class="booklist-item">       
               <!-- booklet container -->
               <div class="booklet-image thumbnail">
-                <img src="http://placehold.it/80x100" alt="Booklet">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
               </div>
               
               <!-- data container -->
               <div class="data-container">
-                  <h4>Jebie mnie to. Pamiętnik życia buca</h4>
+                  <h5>Jebie mnie to. Pamiętnik życia buca</h5>
                   <h6>Paweł Miłobędzki</h6>
               </div>
               
@@ -92,16 +137,305 @@
               </div>
 
       </div>
+
+      <!-- item 5 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+
+      <!-- item 6 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>
+      
+      <!-- item 7 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+
+      <!-- item 8 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Bekanie na zawołanie</h5>
+                  <h6>Dorota Rabczewska</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>
+
+      <!-- item 9 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Dupa mnie boli - katalog dolegliwości gastrycznych</h5>
+                  <h6>Paweł Miłobędzki</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+
+      </div>
+
+      <!-- item 10 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Jebie mnie to. Pamiętnik życia buca</h5>
+                  <h6>Paweł Miłobędzki</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+
+      </div>
+
+      <!-- item 11 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+
+      <!-- item 12 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+      <!-- item 13 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+
+      <!-- item 14 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Bekanie na zawołanie</h5>
+                  <h6>Dorota Rabczewska</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>
+
+      <!-- item 15 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Dupa mnie boli - katalog dolegliwości gastrycznych</h5>
+                  <h6>Paweł Miłobędzki</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+
+      </div>
+
+      <!-- item 16 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Jebie mnie to. Pamiętnik życia buca</h5>
+                  <h6>Paweł Miłobędzki</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+
+      </div>
+
+      <!-- item 17 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>      
+
+      <!-- item 18 -->
+      <div class="booklist-item">       
+              <!-- booklet container -->
+              <div class="booklet-image thumbnail">
+                <img src="http://placehold.it/48x60" alt="Booklet">
+              </div>
+              
+              <!-- data container -->
+              <div class="data-container">
+                  <h5>Płukanie gardła i inne historie</h5>
+                  <h6>Stefan Prykalski</h6>
+              </div>
+              
+              <!-- toolkit container -->
+              <div class="toolkit-container">
+                <div class="icon"><i class="icon-chevron-right"></i></div>
+                <div class="icon"><i class="icon-pencil"></i></div>
+                <div class="icon"><i class="icon-trash"></i></div>
+              </div>
+      </div>
     </div>
 
-    <!-- middle column -->
-    <div class="span4">
-      B
+
     </div>
-    
-    <!-- right column -->
-    <div class="span4">
-      C
-    </div>
-  </div>
 </div>

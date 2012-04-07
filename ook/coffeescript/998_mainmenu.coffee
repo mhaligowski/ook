@@ -1,33 +1,9 @@
-init = ->
-    # init dropdowns
-    $('.dropdown-toggle').dropdown()
-    
-    # init modals
-    $('#add-booklist-modal').modal show:false
-    
-    # init buttons
-    $('.btn').button()
-    
-    ###
-    Keep the height of the page constant
-    ###
-    $(window).resize ->
-        top_padding = $('body')
-            .css('padding-top')
-            .replace("px","")
-        footer_size = $('#page-footer-container').height()
-        new_height = $(window).height() - top_padding - footer_size
-        $(".main-view").height new_height
+namespace "Ook.Mainmenu", (exports) ->
 
-init_handlers = ->
     ###
-    Initialize all the handlers
+    Handler for clicking the Save button
     ###
-    
-    $("#add-booklist-modal-add-button").click ->
-        ###
-        Handler for clicking the Save button
-        ###
+    exports.modal_add_button = ->
         $(this).button 'loading'
         
         # get the values of the form
@@ -68,12 +44,11 @@ init_handlers = ->
 
             # reset the button
             $("#add-booklist-modal-add-button").button 'reset'
-    
-    $("#add-booklist-modal").on 'hidden', ->
+
+    exports.model_hidden = ->
         ###
         Reset the modal
         ###
-        
         # clear the button
         $("#add-booklist-modal-add-button").button 'reset'
         
@@ -82,8 +57,14 @@ init_handlers = ->
     
         # hide the texts
         $("#add-booklist-modal .help-block").hide()
+
+    
+    exports.init = ->
+        $("#add-booklist-modal-add-button").click ->
+            exports.modal_add_button()
         
+        $("#add-booklist-modal").on 'hidden', ->
+            exports.model_hidden()
         
-$ ->
-    init()
-    init_handlers()
+        # init modals
+        $('#add-booklist-modal').modal show:false
