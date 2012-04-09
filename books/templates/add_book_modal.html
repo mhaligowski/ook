@@ -1,0 +1,47 @@
+<!-- add list modal -->    
+
+<div id="add-book-modal" class="modal hide fade">
+    <form class="form-horizontal">
+        <div class="modal-header">              
+            <a class="close" data-dismiss="modal" >&times;</a>
+            <h3>Add new book</h3>
+            <span id="add-book-modal-help" class="label label-info" rel="popover"
+                  data-content="Easy there, cowboy. Give us only one the three fields. Who knows, maybe we already have your book? You cane fill the rest later."
+                  data-original-title="Only three fields?">Info</span>
+       </div> <!-- modal-header -->
+        
+        <div class="modal-body">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label">Title</label>
+                    <div class="controls">
+                        <input type="text" name="book_title">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Author</label>
+                    <div class="controls">
+                        <input type="text" name="book_author">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label class="control-label">ISBN</label>
+                    <div class="controls">
+                        <input type="text" name="book_isbn">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+
+            </fieldset>
+        </div> <!-- modal body -->
+    
+        <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" >Close</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
+        </div><!-- modal footer -->
+    </form>
+</div><!-- modal -->
