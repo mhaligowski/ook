@@ -10,3 +10,4 @@ namespace = (target, name, block) ->
   top    = target
   target = target[item] or= {} for item in name.split '.'
   block target, top
+

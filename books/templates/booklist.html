@@ -1,57 +1,12 @@
+{% include "add_book_modal.html" %}
 
-<div class="container main-view" id="booklist-view">
-  
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-   
-        <a class="brand">A booklist</a>
-        
-        <ul class="nav">
-          <li>
-            <a href="#">Add new book</a>
-          </li> <!-- add new book -->
-          
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">View<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li class="nav-header">Books per page</li>
-              <li><a href="#" class="booklist-view-per-page" data-per-page="9">9<i class="icon-ok"></i></a></li>
-              <li><a href="#" class="booklist-view-per-page" data-per-page="18">18</a></li>
-              <li><a href="#" class="booklist-view-per-page" data-per-page="36">36</a></li>
-              <li class="divider"></li>
-              <li class="nav-header">Sort by</li>
-              <li><a href="#">Title</a></li>
-              <li><a href="#">Author</a></li>
-            </ul>
-          </li> <!-- view options -->
-        </ul> 
-        
-        <form class="navbar-search pull-left">
-          <input type="text" class="search-query" placeholder="Search">
-        </form>
-        
-      </div> <!-- container -->
-    </div> <!-- navbar-inner -->
-  </div> <!-- navbar -->
-
-  <!-- pagination -->
-  <div class="pagination pagination-centered">
-    <ul>
-      <li class="pagination-nav prev"><a href="#">«</a></li>
-      <li class="pagination-nav next"><a href="#">»</a></li>
-    </ul>
-  </div>
+<div class="container main-view" id="booklist-view" >
+  {% include "booklist_menu.html" %}
+  {% include "booklist_pagination.html" %}
   
   <!-- books row -->
   <div class="row">
-    <div id="booklist">
+    <div id="booklist" data-booklist-id="1">
       <!-- item 1 -->
       <div class="booklist-item">       
               <!-- booklet container -->
@@ -435,7 +390,5 @@
               </div>
       </div>
     </div>
-
-
     </div>
 </div>

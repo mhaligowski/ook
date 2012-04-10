@@ -11,8 +11,7 @@ def home_view(request):
     booklists = list(Booklist.objects.filter(owner = request.user))
     
     # render the mustache template
-    booklists_html = render_template('navbar_booklist.mustache', { "booklists": booklists})
-    print booklists_html
+    booklists_html = render_template('navbar_booklist.mustache', { "booklists": booklists })
     
     return render_to_response('home_base.html',
                               { "booklists_html": booklists_html, },

@@ -9,3 +9,9 @@ class Booklist(models.Model):
     date_added = models.DateTimeField(auto_now = True, default = '1900-01-01')
     is_default = models.BooleanField(default = False)
     navbar_order = models.PositiveSmallIntegerField(default = 0) # sorting by desc navbar_order
+    
+class Book(models.Model):
+    title = models.CharField(max_length=2000)
+    author = models.CharField(max_length=2000)
+    isbn = models.CharField(max_length=2000)
+    booklist = models.ForeignKey(Booklist)

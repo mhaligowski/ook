@@ -1,4 +1,4 @@
-@import "bootstrap.less";
+@import "bootstrap/bootstrap.less";
 
 /*
  * Page elems
@@ -50,13 +50,6 @@ body { padding-top:50px; }
     overflow: auto;
 }
 
-.booklist-scrollbar-top,
-.booklist-scrollbar-bottom {
-    background: @white;
-    width: 100%;
-    // ? center
-}
-
 .booklist-item {
     margin: 4px;
     width: 285px;
@@ -90,3 +83,14 @@ body { padding-top:50px; }
     margin-bottom: 5px;
 }
 
+#add-book-modal > form {
+    margin: 0px;
+}
+
+#add-book-modal p {
+    display:none;
+}
+
+#add-book-modal .error p {
+    display: block;
+}

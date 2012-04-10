@@ -6,17 +6,10 @@ namespace "Ook.Mainmenu", (exports) ->
     exports.modal_add_button = ->
         $(this).button 'loading'
         
-        # get the values of the form
-        values = {}
-        
-        for field in $ "#add-booklist-modal form input"
-            do (field) ->
-                values[$(field).attr "name"] = $(field).val()
-        
         # send the form
         $.post(
             "/api/booklists/" # url
-            values
+            $("#add-booklist-modal form input").serialize()
             (data) ->
                 # switch the classes
                 $("#add-booklist-modal-input").removeClass "error"
@@ -45,7 +38,7 @@ namespace "Ook.Mainmenu", (exports) ->
             # reset the button
             $("#add-booklist-modal-add-button").button 'reset'
 
-    exports.model_hidden = ->
+    exports.modal_hidden = ->
         ###
         Reset the modal
         ###
@@ -64,7 +57,7 @@ namespace "Ook.Mainmenu", (exports) ->
             exports.modal_add_button()
         
         $("#add-booklist-modal").on 'hidden', ->
-            exports.model_hidden()
+            exports.modal_hidden()
         
         # init modals
         $('#add-booklist-modal').modal show:false
