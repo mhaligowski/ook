@@ -24,7 +24,7 @@ namespace "Ook.Mainmenu", (exports) ->
                 # clear the dropdown list
                 $(".navbar-booklist").remove()
                 
-                $("#navbar-books > ul > li.nav-header:first").after templates.navbar_booklist.render({ "booklists": data })
+                $("#navbar-books > ul > li.nav-header:first").after templates.navbar_booklist.render "booklists": data
                 
                 # reset the button
                 $("#add-booklist-modal-add-button").button 'reset'
@@ -51,6 +51,8 @@ namespace "Ook.Mainmenu", (exports) ->
         # hide the texts
         $("#add-booklist-modal .help-block").hide()
 
+    exports.go_to_booklist_view = (booklist_id) ->
+        Ook.Booklists.init_view booklist_id
     
     exports.init = ->
         $("#add-booklist-modal-add-button").click ->
@@ -61,3 +63,6 @@ namespace "Ook.Mainmenu", (exports) ->
         
         # init modals
         $('#add-booklist-modal').modal show:false
+
+        $(".navbar-booklist a").click ->
+            exports.go_to_booklist_view $(this).parent().data("booklist-id")

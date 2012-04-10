@@ -4,6 +4,7 @@ from books.models import Booklist, Book
 class BooklistHandler(BaseHandler):
     allowed_methods = ('GET', 'PUT', 'POST', 'DELETE')
     model = Booklist
+    fields = ('name', 'date_added', 'is_default', 'navbar_order', ('book_set', ('title', )), )
     exclude = ('owner',)
     
     def read(self, request, booklist_id = None):
@@ -31,6 +32,7 @@ class BooklistHandler(BaseHandler):
 class BookHandler(BaseHandler):
     allowed_methods = ('GET', 'POST', 'PUT', 'DELETE')
     model = Book
+    exclude = ('booklist',)
     
     def read(self, request):
         pass
@@ -43,7 +45,8 @@ class BookHandler(BaseHandler):
                 author = request.POST["book_author"],
                 isbn = request.POST["book_isbn"] or "-1")
         b.booklist_id = booklist_id
-        print b.title
+        b.save()
+        
         return b
             
     def update(self, request):

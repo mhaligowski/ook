@@ -5,7 +5,7 @@ namespace 'Ook.Booklists', (exports) ->
 
         # get the left
         current_left = parseInt $("#booklist").css "marginLeft"
-        target_left = $(sprintf "#booklist > .booklist-page:nth-child(%d)", page_nr).position().left
+        target_left = $(sprintf "#booklist > .booklist-page:nth-child(%d)", page_nr)?.position()?.left
         
         # animate the page switching
         $("#booklist").animate 
@@ -34,6 +34,12 @@ namespace 'Ook.Booklists', (exports) ->
         [page_elem, parent_size] = [booklist_page_elem (page_count + 1)
                                     $("#booklist").width()]
         
+        # if the list is empty
+        if $("#booklist > .booklist-item").size() is 0
+            elem = booklist_page_elem 1
+            $("#booklist").append elem
+            page_count = 1
+        
         # pageify
         for item in $("#booklist > .booklist-item")
             do (item) ->
@@ -58,7 +64,8 @@ namespace 'Ook.Booklists', (exports) ->
         $("#booklist").data "page-count", page_count
         $("#booklist-view > .pagination li:not(.pagination-nav)").remove()
         
-        # add the pagination elements
+        # add the pagination elements (make sure there is at least one page there)
+        page_count = 1 if page_count is 0
         for page_nr in [1..page_count]
             do (page_nr) ->
                 elem = $(sprintf "<li data-nr=\"%1$d\"><a href=\"#\">%1$d</li>", page_nr )
@@ -66,8 +73,7 @@ namespace 'Ook.Booklists', (exports) ->
                 
                 # page click
                 elem.click ->
-                    exports.go_to_page $(this).data("nr")
-                    
+                    exports.go_to_page $(this).data "nr"
 
         # set parent size
         $("#booklist").width parent_size;
@@ -89,9 +95,32 @@ namespace 'Ook.Booklists', (exports) ->
         
         false
         
-    exports.init = ->
-        exports.view_per_page 9
+    exports.init_view = (booklist_id) ->
+        # set the view
+        $("#booklist").data "booklist-id", booklist_id
         
+        # get the data
+        $.get(
+            sprintf "/api/booklist/%d", booklist_id
+            (data) ->
+                # set title
+                $("#booklist-title").text data.name
+                
+                # clear ALL the books! and add the new ones
+                $("#booklist").empty().append templates.booklist_item.render "booklist-items": data.book_set
+                
+                # make the view visible
+                $("#booklist-view").show()
+
+                # make 9 books per page
+                exports.view_per_page 9
+                exports.go_to_page 1
+
+        )
+        
+        
+        
+    exports.init = ->
         # handler fo changing number of books per page
         $(".booklist-view-per-page").click ->
             exports.view_per_page ($(this).data "per-page") unless $(this).is ".active"
