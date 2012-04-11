@@ -12,6 +12,7 @@ class UserResource(ModelResource):
 
 class BooklistResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
+    books = fields.ToManyField('api.handlers.BookResource', 'book_set', full=True)
 
     class Meta:
         queryset = Booklist.objects.all()

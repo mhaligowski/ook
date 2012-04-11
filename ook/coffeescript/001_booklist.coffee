@@ -101,13 +101,13 @@ namespace 'Ook.Booklists', (exports) ->
         
         # get the data
         $.get(
-            sprintf "/api/booklist/%d", booklist_id
+            sprintf "/api/v1/booklist/%d", booklist_id
             (data) ->
                 # set title
                 $("#booklist-title").text data.name
                 
                 # clear ALL the books! and add the new ones
-                $("#booklist").empty().append templates.booklist_item.render "booklist-items": data.book_set
+                $("#booklist").empty().append templates.booklist_item.render "booklist-items": data.books
                 
                 # make the view visible
                 $("#booklist-view").show()
