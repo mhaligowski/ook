@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'easy_thumbnails',
+    'tastypie',
     
     # my modules
     'profiles',
