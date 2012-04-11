@@ -1,56 +1,32 @@
-from piston.handler import BaseHandler
+from django.contrib.auth.models import User
+from tastypie.resources import ModelResource
+from tastypie import fields
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from books.models import Booklist, Book
 
-class BooklistHandler(BaseHandler):
-    allowed_methods = ('GET', 'PUT', 'POST', 'DELETE')
-    model = Booklist
-    fields = ('name', 'date_added', 'is_default', 'navbar_order', ('book_set', ('title', )), )
-    exclude = ('owner',)
-    
-    def read(self, request, booklist_id = None):
-        """Returns a single booklist if booklist_id is given, else returns a subset"""
-        
-        base = Booklist.objects
-        
-        if booklist_id:
-            return base.get(pk = booklist_id)
-        else:
-            return base.filter(owner = request.user)
+class UserResource(ModelResource):
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'auth/user'
+        excludes = ['username', 'password', 'is_superuser']
 
-    def create(self, request):
-        """ Creates new booklist """
-        if request.POST and request.POST["booklist_name"]:
-            b = Booklist.objects.create(name = request.POST["booklist_name"], owner = request.user)
-            return list(Booklist.objects.filter(owner = request.user))
+class BooklistResource(ModelResource):
+    owner = fields.ForeignKey(UserResource, 'owner')
+
+    class Meta:
+        queryset = Booklist.objects.all()
+        resource_name = 'booklist'
+        filtering = {
+            'id': ALL_WITH_RELATIONS
+        }
+
+class BookResource(ModelResource):
+    booklist = fields.ToOneField(BooklistResource, 'booklist')
     
-    def update(self, request):
-        pass
-    
-    def delete(self, request):
-        pass
-    
-class BookHandler(BaseHandler):
-    allowed_methods = ('GET', 'POST', 'PUT', 'DELETE')
-    model = Book
-    exclude = ('booklist',)
-    
-    def read(self, request):
-        pass
-    
-    def create(self, request, booklist_id = None):
-        if not request.POST:
-            return
+    class Meta:
+        queryset = Book.objects.all()
+        resource_name = 'book'
+        filtering = {
+            'booklist': ALL_WITH_RELATIONS
+        }
         
-        b = Book(title = request.POST["book_title"],                                
-                author = request.POST["book_author"],
-                isbn = request.POST["book_isbn"] or "-1")
-        b.booklist_id = booklist_id
-        b.save()
-        
-        return b
-            
-    def update(self, request):
-        pass
-    
-    def delete(self, request):
-        pass

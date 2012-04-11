@@ -1,17 +1,12 @@
 from django.conf.urls.defaults import *
-from piston.resource import Resource
-from api.handlers import BooklistHandler, BookHandler
-from piston.authentication import OAuthAuthentication
+from tastypie.api import Api
+import handlers
 
-# auth = OAuthAuthentication()
-# booklist_handler = Resource(BooklistHandler, auth)
-
-booklist_handler = Resource(BooklistHandler)
-book_handler = Resource(BookHandler)
+v1_api = Api(api_name = 'v1')
+v1_api.register(handlers.BooklistResource())
+v1_api.register(handlers.BookResource())
+v1_api.register(handlers.UserResource())
 
 urlpatterns = patterns('',
-   url(r'booklists/', booklist_handler),
-   url(r'booklist/(?P<booklist_id>[^/]+)/$', booklist_handler),
-   url(r'booklist/(?P<booklist_id>[^/]+)/books', book_handler),
-   
-)
+                       (r'/', include(v1_api.urls)),
+                       )
