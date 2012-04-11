@@ -101,7 +101,7 @@ namespace 'Ook.Booklists', (exports) ->
         
         # get the data
         $.get(
-            sprintf "/api/v1/booklist/%d", booklist_id
+            sprintf "/api/v1/booklist_data/%d/", booklist_id
             (data) ->
                 # set title
                 $("#booklist-title").text data.name

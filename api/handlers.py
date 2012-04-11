@@ -10,16 +10,21 @@ class UserResource(ModelResource):
         resource_name = 'auth/user'
         excludes = ['username', 'password', 'is_superuser']
 
-class BooklistResource(ModelResource):
+class BooklistRichResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
     books = fields.ToManyField('api.handlers.BookResource', 'book_set', full=True)
 
     class Meta:
         queryset = Booklist.objects.all()
-        resource_name = 'booklist'
+        resource_name = 'booklist_data'
         filtering = {
             'id': ALL_WITH_RELATIONS
         }
+    
+class BooklistResource(ModelResource):
+    class Meta:
+        queryset = Booklist.objects.all()
+        resource_name = 'booklist'
 
 class BookResource(ModelResource):
     booklist = fields.ToOneField(BooklistResource, 'booklist')
