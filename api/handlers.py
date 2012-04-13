@@ -1,7 +1,11 @@
 from django.contrib.auth.models import User
+from django.conf import settings
+
 from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.authorization import Authorization, ReadOnlyAuthorization
+
 from books.models import Booklist, Book
 
 class UserResource(ModelResource):
@@ -22,9 +26,12 @@ class BooklistRichResource(ModelResource):
         }
     
 class BooklistResource(ModelResource):
+    owner = fields.ForeignKey(UserResource, 'owner')
+
     class Meta:
         queryset = Booklist.objects.all()
         resource_name = 'booklist'
+        authorization = Authorization() if settings.DEBUG else ReadOnlyAuthorization()
 
 class BookResource(ModelResource):
     booklist = fields.ToOneField(BooklistResource, 'booklist')

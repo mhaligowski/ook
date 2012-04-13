@@ -5,12 +5,24 @@ namespace "Ook.Mainmenu", (exports) ->
     ###
     exports.modal_add_button = ->
         $(this).button 'loading'
+
+        formData = {}
+        
+        for elem in $("#add-booklist-modal form input").serializeArray()
+            do (elem) ->
+                formData[elem.name] = elem.value
+        
+        formData["owner"] = eval $.cookie "api-user-url"
         
         # send the form
-        $.post(
-            "/api/booklists/" # url
-            $("#add-booklist-modal form input").serialize()
-            (data) ->
+        $.ajax
+            url: "/api/v1/booklist/" # url
+            data: JSON.stringify formData
+            type: "POST"
+            contentType: "application/json"
+            dataType: 'json'
+            processData: false
+            success: (data) ->
                 # switch the classes
                 $("#add-booklist-modal-input").removeClass "error"
                 $("#add-booklist-modal-input").addClass "success"
@@ -28,15 +40,14 @@ namespace "Ook.Mainmenu", (exports) ->
                 
                 # reset the button
                 $("#add-booklist-modal-add-button").button 'reset'
-                
-        ).error -> # what if there is an error creating new booklist?
-            $("#add-booklist-modal-input").addClass "error"
+            error: -> # what if there is an error creating new booklist?
+                $("#add-booklist-modal-input").addClass "error"
             
-            $("#add-booklist-modal-success").hide()
-            $("#add-booklist-modal-error").show()
-
-            # reset the button
-            $("#add-booklist-modal-add-button").button 'reset'
+                $("#add-booklist-modal-success").hide()
+                $("#add-booklist-modal-error").show()
+    
+                # reset the button
+                $("#add-booklist-modal-add-button").button 'reset'
 
     exports.modal_hidden = ->
         ###
