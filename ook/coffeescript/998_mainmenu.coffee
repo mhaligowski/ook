@@ -72,8 +72,8 @@ namespace "Ook.Mainmenu", (exports) ->
         
         # init modals
         $('#add-booklist-modal').modal show:false
+        $('#confirmation-modal').modal show:false
 
         $(".navbar-booklist a").click ->
             d = $(this).parent().data()
-            console.log d
             exports.go_to_booklist_view d.booklistId, d.booklistName

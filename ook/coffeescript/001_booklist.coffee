@@ -119,6 +119,31 @@ namespace 'Ook.Booklists', (exports) ->
                 # clear ALL the books! and add the new ones
                 $("#booklist").empty().append templates.booklist_item.render "booklist-items": data.objects
                 
+                # handle the remove icons
+                $("#booklist .remove.icon > a").on "click", ->
+                    # get the booklist-item list elem
+                    booklist_item = $(this).parents '.booklist-item'
+                    itemId = booklist_item.data().itemId                    
+                    obj = (obj for obj in data.objects when parseInt(obj.id) is itemId)[0]
+                    
+                    # confirm removals
+                    confirm(
+                        $(sprintf '<p>Are you sure you want to delete <span class="title">%s</span>?</p>', obj.title)
+                        ->
+                            # send the removal!
+                            $.ajax
+                                url: sprintf "/api/v1/book/%d/", parseInt(obj.id)
+                                type: "DELETE"
+                                contentType: "application/json"
+                                dataType: 'json'
+                                processData: false
+                                success: ->
+                                    booklist_item.fadeOut 'slow', -> booklist_item.remove()
+                                    
+                                    exports.view_per_page 9
+                                    exports.go_to_page 1
+                    )        
+                                
                 # make the view visible
                 $("#booklist-view").show()
 

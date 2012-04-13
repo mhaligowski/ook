@@ -11,9 +11,12 @@
     {% block head %}
       {% include "home_add_booklist_modal.html" %}
       {% include "home_navbar.html" %}
+      {% include "confirmation_modal.html" %}
     {% endblock %}
 
-    {% block pages %} {% include "booklist.html" %} {% endblock %}
+    {% block pages %}
+      {% include "booklist.html" %}
+    {% endblock %}
     
     <div class="container" id="page-footer-container">
       <hr>
