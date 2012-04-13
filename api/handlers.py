@@ -52,6 +52,8 @@ class BookResource(ModelResource):
     class Meta:
         queryset = Book.objects.all()
         resource_name = 'book'
+        authorization = Authorization() if settings.DEBUG else ReadOnlyAuthorization()
+        always_return_data = True
         filtering = {
             'booklist': ALL_WITH_RELATIONS
         }

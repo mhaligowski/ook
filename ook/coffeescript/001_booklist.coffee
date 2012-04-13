@@ -86,17 +86,26 @@ namespace 'Ook.Booklists', (exports) ->
         exports.go_to_page 1
                     
     exports.add_book_form_handler = ->
-        $.post(
-            sprintf "/api/booklist/%d/books", $("#booklist").data "booklist-id"
-            $(this).serialize()
-            (data) ->
+        formData = 
+            booklist: sprintf "/api/v1/booklist/%d/", $("#booklist").data "booklistId"
+            
+        # prepare the data
+        for elem in $(this).serializeArray()
+            do (elem) ->
+                formData[elem.name] = elem.value
+        $.ajax
+            url: "/api/v1/book/"
+            data: JSON.stringify formData
+            type: "POST"
+            contentType: "application/json"
+            dataType: 'json'
+            processData: false
+            success: (data) ->
                 alert data
-        )
         
         false
         
     exports.init_view = (booklist_id, booklist_name) ->
-        console.log booklist_id
         # set the view
         $("#booklist").data "booklist-id", booklist_id
         
@@ -116,11 +125,8 @@ namespace 'Ook.Booklists', (exports) ->
                 # make 9 books per page
                 exports.view_per_page 9
                 exports.go_to_page 1
-
         )
-        
-        
-        
+
     exports.init = ->
         # handler fo changing number of books per page
         $(".booklist-view-per-page").click ->
