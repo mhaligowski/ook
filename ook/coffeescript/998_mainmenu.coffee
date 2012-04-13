@@ -60,8 +60,8 @@ namespace "Ook.Mainmenu", (exports) ->
         # hide the texts
         $("#add-booklist-modal .help-block").hide()
 
-    exports.go_to_booklist_view = (booklist_id) ->
-        Ook.Booklists.init_view booklist_id
+    exports.go_to_booklist_view = (booklist_id, booklist_name) ->
+        Ook.Booklists.init_view booklist_id, booklist_name
     
     exports.init = ->
         $("#add-booklist-modal-add-button").click ->
@@ -74,4 +74,6 @@ namespace "Ook.Mainmenu", (exports) ->
         $('#add-booklist-modal').modal show:false
 
         $(".navbar-booklist a").click ->
-            exports.go_to_booklist_view $(this).parent().data("booklist-id")
+            d = $(this).parent().data()
+            console.log d
+            exports.go_to_booklist_view d.booklistId, d.booklistName

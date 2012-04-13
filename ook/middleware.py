@@ -1,9 +1,10 @@
 import string
+
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 
 class SessionVariablesMiddleware(object):
     def process_response(self, request, response):
-
         if hasattr(request, "user") and request.user.is_authenticated():
             cookie_value = reverse("api_dispatch_detail",
                                     kwargs={"api_name":"v1",
