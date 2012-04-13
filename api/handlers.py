@@ -32,7 +32,8 @@ class BooklistResource(ModelResource):
         queryset = Booklist.objects.all()
         resource_name = 'booklist'
         authorization = Authorization() if settings.DEBUG else ReadOnlyAuthorization()
-
+        always_return_data = True
+    
 class BookResource(ModelResource):
     booklist = fields.ToOneField(BooklistResource, 'booklist')
     

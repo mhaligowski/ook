@@ -34,9 +34,7 @@ namespace "Ook.Mainmenu", (exports) ->
                 $("#add-booklist-modal form input").val ''
 
                 # clear the dropdown list
-                $(".navbar-booklist").remove()
-                
-                $("#navbar-books > ul > li.nav-header:first").after templates.navbar_booklist.render "booklists": data
+                $("#navbar-books > ul > li.divider").before templates.navbar_booklist.render "booklists": [ data ]
                 
                 # reset the button
                 $("#add-booklist-modal-add-button").button 'reset'
