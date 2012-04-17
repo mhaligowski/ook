@@ -7,6 +7,9 @@ from tastypie import fields
 from tastypie.authorization import Authorization, ReadOnlyAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
+from tastypie.authentication import ApiKeyAuthentication, OAuthAuthentication, MultiAuthentication
+from tastypie.authorization import DjangoAuthorization
+
 
 from books.models import Booklist, Book
 
@@ -15,6 +18,9 @@ class UserResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'auth/user'
         excludes = ['username', 'password', 'is_superuser']
+        
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
     
 class BooklistResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
@@ -43,8 +49,10 @@ class BooklistResource(ModelResource):
     class Meta:
         queryset = Booklist.objects.all()
         resource_name = 'booklist'
-        authorization = Authorization() if settings.DEBUG else ReadOnlyAuthorization()
         always_return_data = True
+
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
     
 class BookResource(ModelResource):
     booklist = fields.ToOneField(BooklistResource, 'booklist')
@@ -52,9 +60,10 @@ class BookResource(ModelResource):
     class Meta:
         queryset = Book.objects.all()
         resource_name = 'book'
-        authorization = Authorization() if settings.DEBUG else ReadOnlyAuthorization()
         always_return_data = True
         filtering = {
             'booklist': ALL_WITH_RELATIONS
         }
         
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()

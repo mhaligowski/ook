@@ -116,12 +116,12 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     
     # some third party modules
+    'tastypie',
     'guardian',
     'south',
     'oauth_provider',
     'userena',
     'easy_thumbnails',
-    'tastypie',
     
     # my modules
     'profiles',

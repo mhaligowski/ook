@@ -13,5 +13,6 @@ Quick start
 5. Compile the CoffeeScript and less: `bin/cake`
 6. Compile the Hogan templates: `bin/hulk ook/hogan/*.mustache > ook/media/js/templates.js`
 7. Prepare the database: `django syncdb --migrate --noinput`
-8. Run the server: `django runsever`
-9. `http://localhost:8000/accounts/signin`
+8. (optional) Create the superuser
+9. Run the server: `django runsever`
+10. `http://localhost:8000/accounts/signin/`

@@ -90,18 +90,18 @@ namespace 'Ook.Booklists', (exports) ->
         
         formData = 
             booklist: sprintf "/api/v1/booklist/%d/", $("#booklist").data "booklistId"
+            username: $.cookie("api-id")
+            api_key: $.cookie("api-key")
             
         # prepare the data
         for elem in $(this).serializeArray()
             do (elem) ->
                 formData[elem.name] = elem.value
+        
         $.ajax
             url: "/api/v1/book/"
-            data: JSON.stringify formData
+            data: formData
             type: "POST"
-            contentType: "application/json"
-            dataType: 'json'
-            processData: false
             success: (data) ->
                 _this.reset()
                 alert data
@@ -171,7 +171,8 @@ namespace 'Ook.Booklists', (exports) ->
         # init modal
         $('#add-book-modal').modal show:false
         $('#add-book-modal form').submit ->
-            exports.add_book_form_handler
+            exports.add_book_form_handler()
             $("#add-book-modal").modal "hide"
+            false
             
         $("#add-book-modal-help").popover()

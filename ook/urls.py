@@ -18,7 +18,7 @@ urlpatterns = patterns('',
     (r'^home/', 'ook.views.home_view'),
     
     # account management
-    (r'^accounts', include('profiles.urls')),
+    (r'^accounts/', include('profiles.urls')),
     
     # rest api
     (r'^api', include('api.urls')),
