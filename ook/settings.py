@@ -117,6 +117,7 @@ INSTALLED_APPS = (
     
     # some third party modules
     'south',
+    'oauth_provider',
     'userena',
     'guardian',
     'easy_thumbnails',
