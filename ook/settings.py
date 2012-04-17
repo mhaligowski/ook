@@ -116,9 +116,9 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     
     # some third party modules
+    'guardian',
     'south',
     'userena',
-    'guardian',
     'easy_thumbnails',
     'tastypie',
     
