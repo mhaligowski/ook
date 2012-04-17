@@ -86,6 +86,8 @@ namespace 'Ook.Booklists', (exports) ->
         exports.go_to_page 1
                     
     exports.add_book_form_handler = ->
+        _this = $(this)
+        
         formData = 
             booklist: sprintf "/api/v1/booklist/%d/", $("#booklist").data "booklistId"
             
@@ -101,6 +103,7 @@ namespace 'Ook.Booklists', (exports) ->
             dataType: 'json'
             processData: false
             success: (data) ->
+                _this.reset()
                 alert data
         
         false
@@ -138,6 +141,7 @@ namespace 'Ook.Booklists', (exports) ->
                                 dataType: 'json'
                                 processData: false
                                 success: ->
+                                    # remove the book from the list
                                     booklist_item.fadeOut 'slow', -> booklist_item.remove()
                                     
                                     exports.view_per_page 9
@@ -166,5 +170,8 @@ namespace 'Ook.Booklists', (exports) ->
             
         # init modal
         $('#add-book-modal').modal show:false
-        $('#add-book-modal form').submit exports.add_book_form_handler
+        $('#add-book-modal form').submit ->
+            exports.add_book_form_handler
+            $("#add-book-modal").modal "hide"
+            
         $("#add-book-modal-help").popover()
