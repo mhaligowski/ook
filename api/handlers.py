@@ -4,12 +4,11 @@ from django.conf.urls import url
 from django.http import HttpResponse, HttpResponseGone
 
 from tastypie import fields
-from tastypie.authorization import Authorization, ReadOnlyAuthorization
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
-from tastypie.authentication import ApiKeyAuthentication, OAuthAuthentication, MultiAuthentication
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import ApiKeyAuthentication
 
+from auth import DjangoAuthorization
 
 from books.models import Booklist, Book
 

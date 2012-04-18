@@ -90,8 +90,6 @@ namespace 'Ook.Booklists', (exports) ->
         
         formData = 
             booklist: sprintf "/api/v1/booklist/%d/", $("#booklist").data "booklistId"
-            username: $.cookie("api-id")
-            api_key: $.cookie("api-key")
             
         # prepare the data
         for elem in $(this).serializeArray()
@@ -100,7 +98,12 @@ namespace 'Ook.Booklists', (exports) ->
         
         $.ajax
             url: "/api/v1/book/"
-            data: formData
+            data: JSON.stringify(formData)
+            contentType: "application/json"
+            dataType: 'json'
+            processData: false
+            headers:
+                "Authorization": sprintf "ApiKey %s:%s", $.cookie("api-id"), $.cookie("api-key")
             type: "POST"
             success: (data) ->
                 _this.reset()

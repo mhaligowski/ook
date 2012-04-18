@@ -12,7 +12,7 @@ class UserProfile(UserenaBaseProfile):
     
 def create_user_profile(sender, instance, created, **kwargs):
     """
-    Create user profie
+    Create user profie and set the permissions
     """
     if created:
         UserProfile.objects.create(user=instance)
