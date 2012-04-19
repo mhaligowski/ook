@@ -1,10 +1,16 @@
 [
     {
-        "pk": 1, 
+        "pk": null, 
         "model": "auth.group", 
         "fields": {
             "name": "default_users", 
-            "permissions": []
+            "permissions": [
+                [
+                    "add_booklist", 
+                    "books", 
+                    "booklist"
+                ],
+            ]
         }
     }
 ]
