@@ -6,12 +6,12 @@ Web application for managing book collections
 Quick start
 ===========
 
-1. Download the sources: `git clone git@github.com:halish/ook.git`
+1. Download the sources: `git clone git@github.com:halish/ook.git`.
 2. (optional) Create Python virtual environment: `virtualenv --no-site-packages ook`. To activate: `source bin/activate`, to quit: `deactivate`.
-3. Init buildout: `python bootstrap.py`
-4. Download dependencies: `bin/buildout` (it downloads and compiles the node.js, so it may take few minutes).
-5. Compile the CoffeeScript and less: `bin/cake`
-6. Prepare the database: `django syncdb --migrate --noinput`
-7. (optional) Create the superuser
-8. Run the server: `django runsever`
-9. `http://localhost:8000/accounts/signin/`
+3. Init buildout: `python bootstrap.py`.
+4. Download dependencies: `bin/buildout` (it downloads and compiles the node.js and stuff, so it may take few minutes).
+5. Compile the CoffeeScript and less: `bin/cake`.
+6. Prepare the database: `django syncdb --migrate --noinput`.
+7. (optional) Create the superuser: `django createsuperuser`.
+8. Run the server: `django runsever`.
+9. `http://localhost:8000/accounts/signin/`.

@@ -12,6 +12,11 @@ class Booklist(models.Model):
     is_default = models.BooleanField(default = False)
     navbar_order = models.PositiveSmallIntegerField(default = 0) # sorting by desc navbar_order
     
+    class Meta:
+        permissions = (
+            ('view_booklist', 'View a booklist'),
+        )
+    
     
 class Book(models.Model):
     """
