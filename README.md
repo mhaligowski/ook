@@ -7,10 +7,10 @@ Quick start
 ===========
 
 1. Download the sources: `git clone git@github.com:halish/ook.git`
-2. (optional) Create Python virtual environment: `virtualenv --no-site-packages ook`. To activate: `source bin/activate`, to quit: `deactivate`.
-3. Init buildout: `python bootstrap.py`
-4. Download dependencies: `bin/buildout` (it downloads and compiles the node.js, so it may take few minutes).
-5. Compile the CoffeeScript and less: `bin/cake`
+2. Create Python virtual environment: `virtualenv --no-site-packages ook; cd ook; source bin/activate;`
+3. Init buildout: `pip zc.buildout`
+4. Download dependencies: `buildout` (it downloads and compiles the node.js, so it may take few minutes).
+5. Compile the CoffeeScript and less: `cake`
 6. Compile the Hogan templates: `bin/hulk ook/hogan/*.mustache > ook/media/js/templates.js`
 7. Prepare the database: `django syncdb --migrate --noinput`
 8. Run the server: `django runsever`
