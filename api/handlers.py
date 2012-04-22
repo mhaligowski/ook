@@ -6,9 +6,8 @@ from django.http import HttpResponse, HttpResponseGone
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
-from tastypie.authentication import ApiKeyAuthentication
 
-from auth import DjangoAuthorization
+from auth import DjangoAuthorization, ApiKeyAuthentication
 
 from books.models import Booklist, Book
 
@@ -23,7 +22,7 @@ class UserResource(ModelResource):
     
 class BooklistResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
-    books = fields.ToManyField('api.handlers.BookResource', 'book_set')
+    books = fields.ToManyField('api.handlers.BookResource', 'book_set', null=True, blank=True)
     filtering = {
             'id': ALL_WITH_RELATIONS
         }
