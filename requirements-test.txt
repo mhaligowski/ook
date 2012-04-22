@@ -1,0 +1,12 @@
+django
+PIL
+south
+django-debug-toolbar
+django-admin-tools
+django-tastypie
+django-extensions
+werkzeug
+pytz
+py-bcrypt
+django-userena
+pystache
