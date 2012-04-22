@@ -4,6 +4,7 @@ python:
 env:
   - DJANGO_SETTINGS_MODULE=ook.development
 install:
-  - pip install . --use-mirrors
   - pip install -r requirements-test.txt --use-mirrors
-script: django-admin.py test profiles books
+script:
+  - echo $PYTHONPATH
+  - django-admin.py test profiles books
