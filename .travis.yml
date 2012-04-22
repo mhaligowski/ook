@@ -2,5 +2,5 @@ language: python
 python:
   - "2.7"
 install:
-  - python bootstrap.py
-  - bin/buildout install django
+  - pip -r requirements-test.txt
+script: django-admin test profiles books
