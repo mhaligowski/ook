@@ -1,15 +1,15 @@
 # -*- encoding: utf-8 -*-
 
 from django.core import management
-from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group, Permission
-import json
+
 import models
 
 class BooklistsTest(TestCase):
     def setUp(self):
         self.client = Client()
+        management.call_command('check_permissions')
         
         self.user1 = User.objects.create_user('user1', 'user@user.com', 'passw0rd')
         self.user2 = User.objects.create_user('user2', 'user@user.com', 'passw0rd')
@@ -83,41 +83,3 @@ class BooklistsTest(TestCase):
 class BooklistApiTestCase(TestCase):
     def setUp(self):
         self.client = Client()
-
-        self.user1 = User.objects.create_user('user1', 'user@user.com', 'passw0rd')
-        self.user2 = User.objects.create_user('user2', 'user@user.com', 'passw0rd')
-
-    def test_create_new_booklist(self):
-        """
-        User should be able to create new booklist with a POST
-        """
-        
-        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
-        url = reverse('api_dispatch_list',
-                      kwargs={'api_name':'v1',
-                              'resource_name': 'booklist'})
-        data = json.dumps({
-            'name': "test",
-            'owner': reverse('api_dispatch_detail',
-                             kwargs={'pk': self.user1.pk,
-                                     'api_name': 'v1',
-                                     'resource_name': 'auth/user'})
-        })
-
-        response = self.client.post(url,
-                                    data,
-                                    content_type = "application/json",
-                                    ACCEPT = "application/json",
-                                    HTTP_AUTHORIZATION = api_string,
-                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
-        
-        self.assertEqual(response.status_code, 201)
-        
-        # parse the response
-        return_data = json.loads(response.content)
-        self.assertEquals(return_data['name'], 'test')
-        
-        # now check the django-side
-        b = models.Booklist.objects.get(pk = return_data["id"])
-        self.assertEquals(b.name, 'test')
-        self.assertEquals(b.owner, self.user1)
