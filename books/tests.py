@@ -81,6 +81,28 @@ class BooklistsTest(TestCase):
         self.assertFalse(self.user2.has_perm('books.delete_book', book))
         
 class BooklistApiTestCase(TestCase):
+    def create_booklist(self, name, user):
+        api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        url = reverse('api_dispatch_list',
+                      kwargs={'api_name':'v1',
+                              'resource_name': 'booklist'})
+
+        data = json.dumps({
+            'name': "test",
+            'owner': reverse('api_dispatch_detail',
+                             kwargs={'pk': user.pk,
+                                     'api_name': 'v1',
+                                     'resource_name': 'auth/user'})
+        })
+
+        return self.client.post(url,
+                                data,
+                                content_type = "application/json",
+                                ACCEPT = "application/json",
+                                HTTP_AUTHORIZATION = api_string,
+                                HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+    
     def setUp(self):
         self.client = Client()
 
@@ -91,25 +113,7 @@ class BooklistApiTestCase(TestCase):
         """
         User should be able to create new booklist with a POST
         """
-        
-        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
-        url = reverse('api_dispatch_list',
-                      kwargs={'api_name':'v1',
-                              'resource_name': 'booklist'})
-        data = json.dumps({
-            'name': "test",
-            'owner': reverse('api_dispatch_detail',
-                             kwargs={'pk': self.user1.pk,
-                                     'api_name': 'v1',
-                                     'resource_name': 'auth/user'})
-        })
-
-        response = self.client.post(url,
-                                    data,
-                                    content_type = "application/json",
-                                    ACCEPT = "application/json",
-                                    HTTP_AUTHORIZATION = api_string,
-                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        response = self.create_booklist("test", self.user1)
         
         self.assertEqual(response.status_code, 201)
         
@@ -121,3 +125,4 @@ class BooklistApiTestCase(TestCase):
         b = models.Booklist.objects.get(pk = return_data["id"])
         self.assertEquals(b.name, 'test')
         self.assertEquals(b.owner, self.user1)
+
