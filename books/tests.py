@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.core import management
 from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group, Permission
@@ -56,6 +58,25 @@ class BooklistsTest(TestCase):
         self.assertTrue(self.user1.has_perm('books.change_booklist', b))
         self.assertFalse(self.user2.has_perm('books.change_booklist', b))
         
-        self.assertTrue(self.user1.has_perm('books.change_booklist', b))
+        self.assertTrue(self.user1.has_perm('books.delete_booklist', b))
         self.assertFalse(self.user2.has_perm('books.delete_booklist', b))
+        
+    def test_can_edit_own_book(self):
+        bl = models.Booklist.objects.create(
+            name = "test booklist",
+            owner = self.user1,
+        )
+        
+        book = models.Book.objects.create(
+            title = u'Mistrz i Małgorzata',
+            author = u'Mihaił Bułhakow',
+            isbn = 123456,
+            booklist = bl
+        )
+
+        self.assertTrue(self.user1.has_perm('books.change_book', book))
+        self.assertFalse(self.user2.has_perm('books.change_book', book))
+
+        self.assertTrue(self.user1.has_perm('books.delete_book', book))
+        self.assertFalse(self.user2.has_perm('books.delete_book', book))
         

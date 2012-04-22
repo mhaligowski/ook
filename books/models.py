@@ -26,7 +26,6 @@ class Book(models.Model):
     author = models.CharField(max_length=2000)
     isbn = models.CharField(max_length=2000)
     booklist = models.ForeignKey(Booklist)
-    
 
 ###
 # SIGNALS
@@ -44,7 +43,7 @@ post_save.connect(create_default_booklist, sender=User)
 
 def assign_booklist_permission(sender, instance, created, **kwargs):
     """
-    Assign permissions to the owner of the book when the booklist is created
+    Assign permissions to the owner of the booklist when the booklist is created
     """
     if created:
         from guardian.shortcuts import assign
@@ -52,3 +51,14 @@ def assign_booklist_permission(sender, instance, created, **kwargs):
         assign('books.delete_booklist', instance.owner, instance)
 
 post_save.connect(assign_booklist_permission, sender=Booklist)
+
+def assign_book_permission(sender, instance, created, **kwargs):
+    """
+    Assign permissions to the booklist owner when the book is created
+    """
+    if created:
+        from guardian.shortcuts import assign
+        assign('books.change_book', instance.booklist.owner, instance)
+        assign('books.delete_book', instance.booklist.owner, instance)
+        
+post_save.connect(assign_book_permission, sender=Book)
