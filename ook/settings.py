@@ -119,7 +119,6 @@ INSTALLED_APPS = (
     'tastypie',
     'guardian',
     'south',
-    'oauth_provider',
     'userena',
     'easy_thumbnails',
     
