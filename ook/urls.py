@@ -22,9 +22,6 @@ urlpatterns = patterns('',
     
     # rest api
     (r'^api', include('api.urls')),
-    
-    # oauth
-    (r'^oauth/', include('oauth_provider.urls')),
 )
 
 if settings.DEBUG:
