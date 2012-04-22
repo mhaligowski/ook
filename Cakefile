@@ -42,6 +42,9 @@ build_hogan = (callback) ->
     hogan.on 'exit', (code) ->
         callback?() if code is 0
 
+task 'build_coffee', 'Build coffeescript', -> build_coffee()
+task 'build_hogan', 'Build mustache templates', -> build_hogan()
+task 'build_less', 'Build less', -> build_less
 task 'build', 'Build all', ->
   build_coffee()
   build_less()
