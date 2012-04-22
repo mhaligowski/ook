@@ -3,4 +3,4 @@ python:
   - "2.7"
 install:
   - pip install -r requirements-test.txt
-script: django-admin test profiles books
+script: django-admin.py test profiles books
