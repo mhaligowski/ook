@@ -9,6 +9,11 @@
                     "add_booklist", 
                     "books", 
                     "booklist"
+                ],
+                [
+                    "view_booklist", 
+                    "books", 
+                    "booklist"
                 ]
             ]
         }
