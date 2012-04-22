@@ -28,14 +28,27 @@ class Book(models.Model):
     booklist = models.ForeignKey(Booklist)
     
 
+###
+# SIGNALS
+###
+
 def create_default_booklist(sender, instance, created, **kwargs):
     """
     Create default booklist when the user is created
     """
-    if created:
+    if created and instance.pk != -1:
         Booklist.objects.create(name = "[]",
                                 owner = instance,
                                 is_default = True)
-        
-        
 post_save.connect(create_default_booklist, sender=User)
+
+def assign_booklist_permission(sender, instance, created, **kwargs):
+    """
+    Assign permissions to the owner of the book when the booklist is created
+    """
+    if created:
+        from guardian.shortcuts import assign
+        assign('books.change_booklist', instance.owner, instance)
+        assign('books.delete_booklist', instance.owner, instance)
+
+post_save.connect(assign_booklist_permission, sender=Booklist)

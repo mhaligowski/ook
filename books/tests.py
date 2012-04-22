@@ -48,5 +48,14 @@ class BooklistsTest(TestCase):
         """
         User should have permission to edit his or her own booklist
         """
-        pass
+        b = models.Booklist.objects.create(
+            name = "test booklist",
+            owner = self.user1,
+        )
+        
+        self.assertTrue(self.user1.has_perm('books.change_booklist', b))
+        self.assertFalse(self.user2.has_perm('books.change_booklist', b))
+        
+        self.assertTrue(self.user1.has_perm('books.change_booklist', b))
+        self.assertFalse(self.user2.has_perm('books.delete_booklist', b))
         

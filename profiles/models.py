@@ -10,6 +10,13 @@ class UserProfile(UserenaBaseProfile):
     
     facebook_id = models.CharField(max_length = 128, blank = True, null = True)
     
+    class Meta:
+        permissions = (
+            ('change_profile', 'Change profile'),
+            ('view_profile', 'View profile'),
+            ('delete_profile', 'Delete profile'),
+        )
+        
 def create_user_profile(sender, instance, created, **kwargs):
     """
     Create user profie and set the permissions
