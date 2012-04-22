@@ -126,3 +126,14 @@ class BooklistApiTestCase(TestCase):
         self.assertEquals(b.name, 'test')
         self.assertEquals(b.owner, self.user1)
 
+    def test_edit_booklist_by_owner(self):
+        pass
+    
+    def test_edit_booklist_by_other(self):
+        pass
+    
+    def test_delete_booklist_by_owner(self):
+        pass
+    
+    def test_delete_booklist_by_other(self):
+        pass
