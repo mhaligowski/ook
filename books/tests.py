@@ -80,3 +80,6 @@ class BooklistsTest(TestCase):
         self.assertTrue(self.user1.has_perm('books.delete_book', book))
         self.assertFalse(self.user2.has_perm('books.delete_book', book))
         
+class BooklistApiTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()

@@ -125,6 +125,7 @@ INSTALLED_APPS = (
     # my modules
     'profiles',
     'books',
+    'api',
 )
 
 # A sample logging configuration. The only tangible logging
