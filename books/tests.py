@@ -104,6 +104,7 @@ class BooklistApiTestCase(TestCase):
         
     def update_booklist(self, name, user, pk):
         api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        
         url = reverse('api_dispatch_detail',
                       kwargs={'api_name':'v1',
                               'resource_name': 'booklist',
@@ -123,6 +124,7 @@ class BooklistApiTestCase(TestCase):
                                HTTP_AUTHORIZATION = api_string,
                                HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         
+    
         
     
     def setUp(self):
@@ -168,8 +170,20 @@ class BooklistApiTestCase(TestCase):
         self.assertEqual(u"nowy test", bl.name)
         
     def test_edit_booklist_by_other(self):
-        pass
-    
+        """
+        User should be able to edit his own booklist with a PUT
+        """
+        # create the booklist
+        bl = models.Booklist.objects.create(
+            name = "test",
+            owner = self.user1
+        )
+        bl.save()
+        
+        # try updating
+        response = self.update_booklist(u"nowy test", self.user2, bl.pk)
+        self.assertEqual(response.status_code, 401)
+
     def test_delete_booklist_by_owner(self):
         pass
     
