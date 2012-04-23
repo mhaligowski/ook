@@ -1,6 +1,7 @@
 from tastypie.authorization import Authorization
 from tastypie.authentication import Authentication
 from tastypie.http import HttpUnauthorized
+from django.core.urlresolvers import resolve
 
 class DjangoAuthorization(Authorization):
     """
@@ -38,12 +39,10 @@ class DjangoAuthorization(Authorization):
         if not hasattr(request, 'user'):
             return False
 
-        if request.method in ('PUT', 'DELETE'):
-            from django.core.urlresolvers import resolve
-            obj_pk = resolve(request.path).kwargs["pk"]
-            
+        url = resolve(request.path)
+        if url.url_name == "api_dispatch_detail":
             # get object
-            obj = klass.objects.get(pk=obj_pk)
+            obj = klass.objects.get(pk=url.kwargs["pk"])
             return request.user.has_perm(permission_code, obj)
         else:
             return request.user.has_perm(permission_code)

@@ -4,6 +4,8 @@ from django.core import management
 from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
 from django.contrib.auth.models import User, Group, Permission
+from django.core.exceptions import ObjectDoesNotExist
+
 import json
 import models
 
@@ -124,9 +126,18 @@ class BooklistApiTestCase(TestCase):
                                HTTP_AUTHORIZATION = api_string,
                                HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         
-    
+    def delete_booklist(self, user, pk):
+        api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
         
-    
+        url = reverse('api_dispatch_detail',
+                      kwargs={'api_name':'v1',
+                              'resource_name': 'booklist',
+                              'pk': pk})
+
+        return self.client.delete(url,
+                                  HTTP_AUTHORIZATION = api_string,
+                                  HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
     def setUp(self):
         self.client = Client()
 
@@ -185,7 +196,33 @@ class BooklistApiTestCase(TestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_delete_booklist_by_owner(self):
-        pass
+        """
+        User should be able to delete his own booklist with a DELETE
+        """
+        # create the booklist
+        bl = models.Booklist.objects.create(
+            name = "test",
+            owner = self.user1
+        )
+        bl.save()
+        
+        # try deleting
+        response = self.delete_booklist(self.user1, bl.pk)
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(models.Booklist.objects.filter(pk = bl.pk)), 0)
+
     
     def test_delete_booklist_by_other(self):
-        pass
+        """
+        User should be unable to delete others booklist with a DELETE
+        """
+        # create the booklist
+        bl = models.Booklist.objects.create(
+            name = "test",
+            owner = self.user1
+        )
+        bl.save()
+        
+        # try deleting
+        response = self.delete_booklist(self.user2, bl.pk)
+        self.assertEqual(response.status_code, 401)
