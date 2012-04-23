@@ -12,7 +12,7 @@ class DjangoAuthorization(Authorization):
     """
     def is_authorized(self, request, object=None):
         # GET-style methods are always allowed.
-        if request.method in ('GET', 'OPTIONS', 'HEAD'):
+        if request.method in ('OPTIONS', 'HEAD'):
             return True
 
         klass = self.resource_meta.object_class
@@ -22,25 +22,31 @@ class DjangoAuthorization(Authorization):
             return True
 
         permission_map = {
-            'POST': ['%s.add_%s'],
-            'PUT': ['%s.change_%s'],
-            'DELETE': ['%s.delete_%s'],
-            'PATCH': ['%s.add_%s', '%s.change_%s', '%s.delete_%s'],
+            'GET': '%s.view_%s',
+            'POST': '%s.add_%s',
+            'PUT': '%s.change_%s',
+            'DELETE': '%s.delete_%s'
         }
-        permission_codes = []
-
+        
         # If we don't recognize the HTTP method, we don't know what
         # permissions to check. Deny.
         if request.method not in permission_map:
             return False
 
-        for perm in permission_map[request.method]:
-            permission_codes.append(perm % (klass._meta.app_label, klass._meta.module_name))
+        permission_code = permission_map[request.method] % (klass._meta.app_label, klass._meta.module_name)
 
         if not hasattr(request, 'user'):
             return False
-        
-        return request.user.has_perms(permission_codes)
+
+        if request.method in ('PUT', 'DELETE'):
+            from django.core.urlresolvers import resolve
+            obj_pk = resolve(request.path).kwargs["pk"]
+            
+            # get object
+            obj = klass.objects.get(pk=obj_pk)
+            return request.user.has_perm(permission_code, obj)
+        else:
+            return request.user.has_perm(permission_code)
 
 class ApiKeyAuthentication(Authentication):
     """

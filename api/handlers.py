@@ -13,6 +13,7 @@ from books.models import Booklist, Book
 
 class UserResource(ModelResource):
     class Meta:
+        list_allowed_methods = ['get',]
         queryset = User.objects.all()
         resource_name = 'auth/user'
         excludes = ['username', 'password', 'is_superuser']
@@ -45,6 +46,7 @@ class BooklistResource(ModelResource):
         return details
 
     class Meta:
+        list_allowed_methods = ['get', 'post', 'put', 'delete',]
         queryset = Booklist.objects.all()
         resource_name = 'booklist'
         always_return_data = True
@@ -56,6 +58,7 @@ class BookResource(ModelResource):
     booklist = fields.ToOneField(BooklistResource, 'booklist')
     
     class Meta:
+        list_allowed_methods = ['get', 'post', 'put', 'delete',]
         queryset = Book.objects.all()
         resource_name = 'book'
         always_return_data = True

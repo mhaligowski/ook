@@ -88,7 +88,7 @@ class BooklistApiTestCase(TestCase):
                               'resource_name': 'booklist'})
 
         data = json.dumps({
-            'name': "test",
+            'name': name,
             'owner': reverse('api_dispatch_detail',
                              kwargs={'pk': user.pk,
                                      'api_name': 'v1',
@@ -101,6 +101,28 @@ class BooklistApiTestCase(TestCase):
                                 ACCEPT = "application/json",
                                 HTTP_AUTHORIZATION = api_string,
                                 HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+    def update_booklist(self, name, user, pk):
+        api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        url = reverse('api_dispatch_detail',
+                      kwargs={'api_name':'v1',
+                              'resource_name': 'booklist',
+                              'pk': pk})
+
+        data = json.dumps({
+            'name': name,
+            'owner': reverse('api_dispatch_detail',
+                             kwargs={'pk': user.pk,
+                                     'api_name': 'v1',
+                                     'resource_name': 'auth/user'})
+        })
+
+        return self.client.put(url,
+                               data,
+                               content_type = "application/json",
+                               HTTP_AUTHORIZATION = api_string,
+                               HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
         
     
     def setUp(self):
@@ -127,8 +149,24 @@ class BooklistApiTestCase(TestCase):
         self.assertEquals(b.owner, self.user1)
 
     def test_edit_booklist_by_owner(self):
-        pass
-    
+        """
+        User should be able to edit his own booklist with a PUT
+        """
+        # create the booklist
+        bl = models.Booklist.objects.create(
+            name = "test",
+            owner = self.user1
+        )
+        bl.save()
+        
+        # try updating
+        response = self.update_booklist(u"nowy test", self.user1, bl.pk)
+        self.assertEqual(response.status_code, 202)
+
+        # redownload    
+        bl = models.Booklist.objects.get(pk = bl.pk)
+        self.assertEqual(u"nowy test", bl.name)
+        
     def test_edit_booklist_by_other(self):
         pass
     
