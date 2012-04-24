@@ -39,6 +39,16 @@ class BooksTest(TestCase):
         self.assertTrue(self.user1.has_perm('books.delete_book', book))
         self.assertFalse(self.user2.has_perm('books.delete_book', book))
         
+    def test_create_book_for_non_owner_booklist(self):
+        bl = Booklist.objects.create(
+            name = "test booklist",
+            owner = self.user1,
+        )
+        
+        self.assertTrue(self.user1.has_perm('books.add_book_to_booklist', bl))
+        self.assertFalse(self.user2.has_perm('books.add_book_to_booklist', bl))
+        
+        
 class ApiTest(TestCase):
     def create_book(self, user, title, author, isbn, booklist):
         api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
@@ -75,7 +85,7 @@ class ApiTest(TestCase):
 
     def test_create_book_to_owner_list(self):
         """
-        User should be able to create new booklist with a POST
+        User should be able to create new book for his booklist with a POST
         """
         response = self.create_book(user = self.user1,
                                     title = "test",
@@ -92,3 +102,15 @@ class ApiTest(TestCase):
         b = Book.objects.get(pk = return_data["id"])
         self.assertEquals(b.title, 'test')
         self.assertEquals(b.booklist.owner, self.user1)
+
+    def test_create_book_to_other_list(self):
+        """
+        User should be unable to create new book for other users's booklist with a POST
+        """
+        response = self.create_book(user = self.user2,
+                            title = "test",
+                            author = "John Doe",
+                            isbn = 123,
+                            booklist = self.booklist1)
+
+        self.assertEqual(response.status_code, 401)

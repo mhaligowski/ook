@@ -15,6 +15,7 @@ class Booklist(models.Model):
     class Meta:
         permissions = (
             ('view_booklist', 'View a booklist'),
+            ('add_book_to_booklist', 'Add a book to the booklist'),
         )
     
     
@@ -47,8 +48,14 @@ def assign_booklist_permission(sender, instance, created, **kwargs):
     """
     if created:
         from guardian.shortcuts import assign
-        assign('books.change_booklist', instance.owner, instance)
-        assign('books.delete_booklist', instance.owner, instance)
+        
+        perms = [
+            'books.change_booklist',
+            'books.delete_booklist',
+            'books.add_book_to_booklist',
+        ]
+        for perm in perms:
+            assign(perm, instance.owner, instance)
 
 post_save.connect(assign_booklist_permission, sender=Booklist)
 

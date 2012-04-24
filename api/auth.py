@@ -3,6 +3,9 @@ from tastypie.authentication import Authentication
 from tastypie.http import HttpUnauthorized
 from django.core.urlresolvers import resolve
 
+import json
+from books.models import Book, Booklist
+
 class DjangoAuthorization(Authorization):
     """
     Uses permission checking from ``django.contrib.auth`` to map
@@ -39,10 +42,30 @@ class DjangoAuthorization(Authorization):
         if not hasattr(request, 'user'):
             return False
 
+        # get the resource
         url = resolve(request.path)
+
+        # workaround for adding books to booklist
+        # TODO: design it better, would ya?
+        if klass == Book and request.method == "POST":
+            # get the booklist
+            data = json.loads(request.raw_post_data)
+            if not data.has_key(u"booklist"):
+                return False
+            booklist_pk = resolve(data["booklist"]).kwargs["pk"]
+            booklist = None
+            try:
+                booklist = Booklist.objects.get(pk=booklist_pk)
+            except:
+                return False
+            
+            if not request.user.has_perm('books.add_book_to_booklist', booklist):
+                return False
+
         if url.url_name == "api_dispatch_detail":
             # get object
             obj = klass.objects.get(pk=url.kwargs["pk"])
+            
             return request.user.has_perm(permission_code, obj)
         else:
             return request.user.has_perm(permission_code)
