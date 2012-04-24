@@ -105,7 +105,7 @@ TEMPLATE_DIRS = (
 
 MUSTACHE_TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "hogan")
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -126,7 +126,7 @@ INSTALLED_APPS = (
     'profiles',
     'books',
     'api',
-)
+]
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -25,8 +25,11 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
         
         # get default group, but not for anonymous
-        default_group = Group.objects.get(name = "default_users")
-        instance.groups.add(default_group)
+        try:
+            default_group = Group.objects.get(name = "default_users")
+            instance.groups.add(default_group)
+        except:
+            pass
         
 post_save.connect(create_user_profile, sender=User)
 
