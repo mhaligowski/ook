@@ -18,7 +18,6 @@ class Booklist(models.Model):
             ('add_book_to_booklist', 'Add a book to the booklist'),
         )
     
-    
 class Book(models.Model):
     """
     Book model

@@ -73,6 +73,31 @@ class ApiTest(TestCase):
                                 HTTP_AUTHORIZATION = api_string,
                                 HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
 
+    def update_book(self, book_pk, user, title, author, isbn, booklist):
+        api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        
+        url = reverse('api_dispatch_detail',
+                      kwargs={'api_name':'v1',
+                              'resource_name': 'book',
+                              'pk': book_pk})
+
+        data = json.dumps({
+            'title': title,
+            'author': author,
+            'isbn': isbn,
+            'booklist': reverse('api_dispatch_detail',
+                             kwargs={'pk': booklist.pk,
+                                     'api_name': 'v1',
+                                     'resource_name': 'booklist'})
+        })
+
+        return self.client.put(url,
+                               data,
+                               content_type = "application/json",
+                               HTTP_AUTHORIZATION = api_string,
+                               HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+
+
     def setUp(self):
         self.client = Client()
         
@@ -114,3 +139,31 @@ class ApiTest(TestCase):
                             booklist = self.booklist1)
 
         self.assertEqual(response.status_code, 401)
+        
+    def test_edit_own_book(self):
+        """
+        User should be able to edit book he created
+        """
+        # create book
+        b = Book.objects.create(
+            title = "test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
+        response = self.update_book(
+            book_pk = b.pk,
+            user = self.user1,
+            title = "updated test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
+        # confirm status
+        self.assertEqual(response.status_code, 202)
+        
+        # redownload the book
+        b = Book.objects.get(pk = b.pk)
+        self.assertEqual(b.title, "updated test")

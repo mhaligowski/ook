@@ -66,6 +66,7 @@ class BooklistsTest(TestCase):
 class BooklistApiTestCase(TestCase):
     def create_booklist(self, name, user):
         api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        
         url = reverse('api_dispatch_list',
                       kwargs={'api_name':'v1',
                               'resource_name': 'booklist'})
@@ -191,7 +192,6 @@ class BooklistApiTestCase(TestCase):
         response = self.delete_booklist(self.user1, bl.pk)
         self.assertEqual(response.status_code, 204)
         self.assertEqual(len(Booklist.objects.filter(pk = bl.pk)), 0)
-
     
     def test_delete_booklist_by_other(self):
         """
