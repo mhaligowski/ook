@@ -219,4 +219,10 @@ class ApiTest(TestCase):
 
         self.assertEqual(response.status_code, 401)
         
+    def test_delete_book_of_user(self):
+        pass
+    
+    def test_delete_book_of_other_user(self):
+        pass
+        
         
