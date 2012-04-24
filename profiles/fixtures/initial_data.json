@@ -14,7 +14,13 @@
                     "view_booklist", 
                     "books", 
                     "booklist"
+                ],
+                [
+                    "add_book", 
+                    "books", 
+                    "book"
                 ]
+
             ]
         }
     }

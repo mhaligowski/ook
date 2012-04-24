@@ -35,7 +35,7 @@ class DjangoAuthorization(Authorization):
             return False
 
         permission_code = permission_map[request.method] % (klass._meta.app_label, klass._meta.module_name)
-
+        
         if not hasattr(request, 'user'):
             return False
 
