@@ -167,3 +167,27 @@ class ApiTest(TestCase):
         # redownload the book
         b = Book.objects.get(pk = b.pk)
         self.assertEqual(b.title, "updated test")
+        
+    def test_edit_other_book(self):
+        """
+        User should be unable to edit book other user created
+        """
+        # create book
+        b = Book.objects.create(
+            title = "test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
+        response = self.update_book(
+            book_pk = b.pk,
+            user = self.user2,
+            title = "updated test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
+        # confirm status
+        self.assertEqual(response.status_code, 401)
