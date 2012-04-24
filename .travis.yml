@@ -4,6 +4,6 @@ python:
 env:
   - PYTHONPATH='.'
 install:
-  - pip install -r requirements-test.txt --use-mirrors --quiet
+  - pip install -r requirements-test.txt -q --use-mirrors
 script:
   - django-admin.py test profiles books --settings="ook.development"
