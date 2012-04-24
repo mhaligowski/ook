@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from django.core import management
 from django.core.urlresolvers import reverse
@@ -7,7 +7,7 @@ from django.contrib.auth.models import User, Group, Permission
 from django.core.exceptions import ObjectDoesNotExist
 
 import json
-import models
+from books.models import Booklist
 
 class BooklistsTest(TestCase):
     def setUp(self):
@@ -52,7 +52,7 @@ class BooklistsTest(TestCase):
         """
         User should have permission to edit his or her own booklist
         """
-        b = models.Booklist.objects.create(
+        b = Booklist.objects.create(
             name = "test booklist",
             owner = self.user1,
         )
@@ -62,25 +62,6 @@ class BooklistsTest(TestCase):
         
         self.assertTrue(self.user1.has_perm('books.delete_booklist', b))
         self.assertFalse(self.user2.has_perm('books.delete_booklist', b))
-        
-    def test_can_edit_own_book(self):
-        bl = models.Booklist.objects.create(
-            name = "test booklist",
-            owner = self.user1,
-        )
-        
-        book = models.Book.objects.create(
-            title = u'Mistrz i Małgorzata',
-            author = u'Mihaił Bułhakow',
-            isbn = 123456,
-            booklist = bl
-        )
-
-        self.assertTrue(self.user1.has_perm('books.change_book', book))
-        self.assertFalse(self.user2.has_perm('books.change_book', book))
-
-        self.assertTrue(self.user1.has_perm('books.delete_book', book))
-        self.assertFalse(self.user2.has_perm('books.delete_book', book))
         
 class BooklistApiTestCase(TestCase):
     def create_booklist(self, name, user):
@@ -157,7 +138,7 @@ class BooklistApiTestCase(TestCase):
         self.assertEquals(return_data['name'], 'test')
         
         # now check the django-side
-        b = models.Booklist.objects.get(pk = return_data["id"])
+        b = Booklist.objects.get(pk = return_data["id"])
         self.assertEquals(b.name, 'test')
         self.assertEquals(b.owner, self.user1)
 
@@ -166,7 +147,7 @@ class BooklistApiTestCase(TestCase):
         User should be able to edit his own booklist with a PUT
         """
         # create the booklist
-        bl = models.Booklist.objects.create(
+        bl = Booklist.objects.create(
             name = "test",
             owner = self.user1
         )
@@ -177,7 +158,7 @@ class BooklistApiTestCase(TestCase):
         self.assertEqual(response.status_code, 202)
 
         # redownload    
-        bl = models.Booklist.objects.get(pk = bl.pk)
+        bl = Booklist.objects.get(pk = bl.pk)
         self.assertEqual(u"nowy test", bl.name)
         
     def test_edit_booklist_by_other(self):
@@ -185,7 +166,7 @@ class BooklistApiTestCase(TestCase):
         User should be able to edit his own booklist with a PUT
         """
         # create the booklist
-        bl = models.Booklist.objects.create(
+        bl = Booklist.objects.create(
             name = "test",
             owner = self.user1
         )
@@ -200,7 +181,7 @@ class BooklistApiTestCase(TestCase):
         User should be able to delete his own booklist with a DELETE
         """
         # create the booklist
-        bl = models.Booklist.objects.create(
+        bl = Booklist.objects.create(
             name = "test",
             owner = self.user1
         )
@@ -209,7 +190,7 @@ class BooklistApiTestCase(TestCase):
         # try deleting
         response = self.delete_booklist(self.user1, bl.pk)
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(len(models.Booklist.objects.filter(pk = bl.pk)), 0)
+        self.assertEqual(len(Booklist.objects.filter(pk = bl.pk)), 0)
 
     
     def test_delete_booklist_by_other(self):
@@ -217,7 +198,7 @@ class BooklistApiTestCase(TestCase):
         User should be unable to delete others booklist with a DELETE
         """
         # create the booklist
-        bl = models.Booklist.objects.create(
+        bl = Booklist.objects.create(
             name = "test",
             owner = self.user1
         )
