@@ -107,6 +107,10 @@ class ApiTest(TestCase):
             owner = self.user1
         )
         self.user2 = User.objects.create_user('user2', 'user@user.com', 'passw0rd')
+        self.booklist2 = Booklist.objects.create(
+            name = "booklist2",
+            owner = self.user2
+        )
 
     def test_create_book_to_owner_list(self):
         """
@@ -191,3 +195,28 @@ class ApiTest(TestCase):
         
         # confirm status
         self.assertEqual(response.status_code, 401)
+
+    def test_edit_booklist_to_other_user(self):
+        """
+        User should be unable to move book he created to booklist of other user
+        """
+        # create book
+        b = Book.objects.create(
+            title = "test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
+        response = self.update_book(
+            book_pk = b.pk,
+            user = self.user1,
+            title = "updated test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist2
+        )
+
+        self.assertEqual(response.status_code, 401)
+        
+        

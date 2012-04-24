@@ -47,7 +47,7 @@ class DjangoAuthorization(Authorization):
 
         # workaround for adding books to booklist
         # TODO: design it better, would ya?
-        if klass == Book and request.method == "POST":
+        if klass == Book and request.method in ("POST", "PUT"):
             # get the booklist
             data = json.loads(request.raw_post_data)
             if not data.has_key(u"booklist"):
