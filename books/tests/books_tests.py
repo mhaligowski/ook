@@ -143,6 +143,18 @@ class ApiTest(TestCase):
                             booklist = self.booklist1)
 
         self.assertEqual(response.status_code, 401)
+
+    def delete_book(self, user, pk):
+        api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
+        
+        url = reverse('api_dispatch_detail',
+                      kwargs={'api_name':'v1',
+                              'resource_name': 'book',
+                              'pk': pk})
+
+        return self.client.delete(url,
+                                  HTTP_AUTHORIZATION = api_string,
+                                  HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         
     def test_edit_own_book(self):
         """
@@ -220,9 +232,33 @@ class ApiTest(TestCase):
         self.assertEqual(response.status_code, 401)
         
     def test_delete_book_of_user(self):
-        pass
-    
+        # create book
+        b = Book.objects.create(
+            title = "test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+
+        response = self.delete_book(
+            user = self.user1,
+            pk = b.pk
+        )
+        
+        self.assertEqual(response.status_code, 204)
+        
     def test_delete_book_of_other_user(self):
-        pass
+        # create book
+        b = Book.objects.create(
+            title = "test",
+            author = "John Doe",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+
+        response = self.delete_book(
+            user = self.user2,
+            pk = b.pk
+        )
         
-        
+        self.assertEqual(response.status_code, 401)
