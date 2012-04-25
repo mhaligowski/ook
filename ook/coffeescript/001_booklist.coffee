@@ -85,14 +85,14 @@ namespace 'Ook.Booklists', (exports) ->
         # just in case, go to page 1
         exports.go_to_page 1
                     
-    exports.add_book_form_handler = ->
+    exports.add_book_form_handler = (form) ->
         _this = $(this)
         
         formData = 
             booklist: sprintf "/api/v1/booklist/%d/", $("#booklist").data "booklistId"
             
         # prepare the data
-        for elem in $(this).serializeArray()
+        for elem in $(form).serializeArray()
             do (elem) ->
                 formData[elem.name] = elem.value
         
@@ -106,7 +106,7 @@ namespace 'Ook.Booklists', (exports) ->
                 "Authorization": sprintf "ApiKey %s:%s", $.cookie("api-id"), $.cookie("api-key")
             type: "POST"
             success: (data) ->
-                _this.reset()
+                $(form)[0].reset()
                 alert data
         
         false
@@ -174,7 +174,7 @@ namespace 'Ook.Booklists', (exports) ->
         # init modal
         $('#add-book-modal').modal show:false
         $('#add-book-modal form').submit ->
-            exports.add_book_form_handler()
+            exports.add_book_form_handler($(this))
             $("#add-book-modal").modal "hide"
             false
             
