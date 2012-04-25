@@ -28,18 +28,20 @@ build_less = (callback) ->
     callback?() if code is 0
 
 build_hogan = (callback) ->
+    ws = fs.createWriteStream( './ook/media/js/templates.js', { 'flags': 'w' } )
+
     hogan = spawn 'hulk', ['./ook/hogan/*.mustache']
     
     hogan.stderr.on 'data', (data) ->
         process.stderr.write data.toString()
-    
+
     # open file
     hogan.stdout.on 'data', (data) ->
-        ws = fs.createWriteStream( './ook/media/js/templates.js', { 'flags': 'w' } )
-        ws.write(data)
-        ws.end()
+        output = data.toString()
+        ws.write(output)
     
     hogan.on 'exit', (code) ->
+        ws.end()
         callback?() if code is 0
 
 task 'build_coffee', 'Build coffeescript', -> build_coffee()
