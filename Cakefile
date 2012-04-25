@@ -1,54 +1,36 @@
 fs = require 'fs'
+wrench = require 'wrench'
 
-{print} = require 'util'
-{spawn} = require 'child_process'
+# init options
+option '-s', '--source [DIR]', 'source directory'
+option '-o', '--output [DIR]', 'directory for compiled code'
+option '-i', '--img [DIR]', 'directory suffix for images'
 
-build_coffee = (callback) ->
-  coffee = spawn 'coffee', ['-c', '-j', './ook/media/js/ook.js', './ook/coffeescript/']
-  
-  coffee.stderr.on 'data', (data) ->
-    process.stderr.write data.toString()
+
+# default options
+default_options =
+    source: 'webapp/src/'
+    coffee_suffix: 'coffeescript/'
+    img: 'img/'
+    output: 'tmp/media/'
+
+task 'mkdirs', 'create the output directory (if it does not exist)', (options) ->
+    output_dir = options.output ? default_options.output
+    wrench.mkdirSyncRecursive output_dir, 0o0777;
     
-  coffee.stdout.on 'data', (data) ->
-    print data.toString()
+    parts = ['img/', 'js/', 'css/']
+        
+    for p in parts
+        wrench.mkdirSyncRecursive output_dir + p
+        
+task 'copy:images', 'copy images from source dir to target', (options) ->
+    s = options.img ? default_options.img
+    source = options.source ? default_options.source
+    output = options.output ? default_options.output
     
-  coffee.on 'exit', (code) ->
-    callback?() if code is 0
-
-build_less = (callback) ->
-  less = spawn 'lessc', ['./ook/less/ook.less', '-x', './ook/media/css/ook.css']
-
-  less.stderr.on 'data', (data) ->
-    process.stderr.write data.toString()
+    wrench.copyDirSyncRecursive (source + s), (output + s)
     
-  less.stdout.on 'data', (data) ->
-    print data.toString()
     
-  less.on 'exit', (code) ->
-    callback?() if code is 0
-
-build_hogan = (callback) ->
-    ws = fs.createWriteStream( './ook/media/js/templates.js', { 'flags': 'w' } )
-
-    hogan = spawn 'hulk', ['./ook/hogan/*.mustache']
-    
-    hogan.stderr.on 'data', (data) ->
-        process.stderr.write data.toString()
-
-    # open file
-    hogan.stdout.on 'data', (data) ->
-        output = data.toString()
-        ws.write(output)
-    
-    hogan.on 'exit', (code) ->
-        ws.end()
-        callback?() if code is 0
-
-task 'build_coffee', 'Build coffeescript', -> build_coffee()
-task 'build_hogan', 'Build mustache templates', -> build_hogan()
-task 'build_less', 'Build less', -> build_less
-task 'build', 'Build all', ->
-  build_coffee()
-  build_less()
-  build_hogan()
-  
+task 'all', 'compile everything and copy to output directory', (options) ->
+    invoke 'mkdirs'
+    invoke 'copy:images'
