@@ -143,6 +143,8 @@ namespace 'Ook.Booklists', (exports) ->
                                 contentType: "application/json"
                                 dataType: 'json'
                                 processData: false
+                                headers:
+                                    "Authorization": sprintf "ApiKey %s:%s", $.cookie("api-id"), $.cookie("api-key")
                                 success: ->
                                     # remove the book from the list
                                     booklist_item.fadeOut 'slow', -> booklist_item.remove()
