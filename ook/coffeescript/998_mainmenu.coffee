@@ -22,6 +22,8 @@ namespace "Ook.Mainmenu", (exports) ->
             contentType: "application/json"
             dataType: 'json'
             processData: false
+            headers:
+                "Authorization": sprintf "ApiKey %s:%s", $.cookie("api-id"), $.cookie("api-key")
             success: (data) ->
                 # switch the classes
                 $("#add-booklist-modal-input").removeClass "error"
