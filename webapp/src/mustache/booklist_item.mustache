@@ -1,0 +1,21 @@
+{{#booklist-items}}
+<div class="booklist-item" data-item-id="{{ id }}">       
+    <!-- booklet container -->
+    <div class="booklet-image thumbnail">
+        <img src="http://placehold.it/48x60" width="48" height="60" alt="Booklet">
+    </div>
+          
+    <!-- data container -->
+    <div class="data-container">
+        <h5>{{ title }}</h5>
+        <h6>{{ author }}</h6>
+    </div>
+          
+    <!-- toolkit container -->
+    <div class="toolkit-container">
+        <div class="look icon"><a href="#"><i class="icon-chevron-right"></i></a></div>
+        <div class="edit icon"><a href="#"><i class="icon-pencil"></i></a></div>
+        <div class="remove icon"><a href="#"><i class="icon-trash"></i></a></div>
+    </div>
+</div>      
+{{/booklist-items}}
