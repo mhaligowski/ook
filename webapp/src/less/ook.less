@@ -1,0 +1,107 @@
+@import "lib/bootstrap/bootstrap.less";
+
+/*
+ * Page elems
+*/
+body { padding-top:50px; }
+
+.main-view {
+    overflow:hidden;
+}
+
+#page-footer-container {
+    height: 100px;
+}
+
+/*
+ * Modals
+ */
+#confirmation-modal {
+    
+}
+
+#confirmation-modal > .modal-body > p > span.title {
+    font-weight: 800;
+}
+
+/*
+* Bookist items
+*/
+#booklist-view .navbar .nav > li > a {
+    color: @grayLighter;
+}
+
+#booklist-view .navbar .nav > li > a:hover {
+    color: @white;
+    background-color: @blue;
+}
+
+#booklist-view .navbar-inner {
+  #gradient > .vertical(@blue, @blueDark);
+}
+
+#booklist-view .navbar-search {
+    .search-query {
+        background-color: @grayLighter;
+        
+        &:focus,
+        &.focused {
+            background-color: @white;
+        }
+    }
+}
+
+#booklist {
+    overflow:hidden;
+    position:relative;
+}
+
+#booklist > .booklist-page {
+    float:left;
+    overflow: auto;
+}
+
+.booklist-item {
+    margin: 4px;
+    width: 285px;
+    float: left;
+    background-color:@grayLighter; 
+    overflow:hidden;
+    padding: 10px;
+    margin-bottom: 10px;
+    .border-radius(5px);
+    .box-shadow(0 0 3px lighten(@gray, 20%));
+}
+
+.booklist-item > div {
+    float:left
+}
+
+.booklist-item > .booklet-image {
+  margin-right: 10px;
+  height: 60px;
+}
+
+.booklist-item > .data-container {
+    width: 193px;
+    margin-right: 10px
+}
+
+.booklist-item > .toolkit-container {
+}
+
+.booklist-item > .toolkit-container > .icon {
+    margin-bottom: 5px;
+}
+
+#add-book-modal > form {
+    margin: 0px;
+}
+
+#add-book-modal p {
+    display:none;
+}
+
+#add-book-modal .error p {
+    display: block;
+}
