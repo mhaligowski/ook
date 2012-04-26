@@ -7,6 +7,9 @@ TEMPLATE_DEBUG=DEBUG
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'tmp', 'media')
 MEDIA_URL = "/media"
 
+MUSTACHE_TEMPLATE_DIR = os.path.join(PROJECT_DIR, "webapp", "src", "mustache")
+
+
 DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': os.path.join(PROJECT_DIR, 'tmp', 'db', 'devel.db'),              # Or path to database file if using sqlite3.
