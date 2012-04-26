@@ -51,8 +51,27 @@ task 'copy:js', 'copy static javascript (libs)', (options) ->
     wrench.copyDirSyncRecursive (source + s), (output + s)
     
 task 'compile:coffee', 'compiles coffescript', (options) ->
-    # to be implemented
-    false
+    ###
+    Compiles coffeescript files
+    ###
+    
+    # set the directories
+    source_dir = options.source ? default_options.source
+    output_dir = options.output ? default_options.output
+    
+    coffee_dir = options.coffee ? default_options.coffee
+    js_dir = options.js ? default_options.js
+    
+    coffee = spawn 'coffee', ['-c', '-o', (output_dir + js_dir), (source_dir + coffee_dir)]
+  
+    coffee.stderr.on 'data', (data) ->
+        process.stderr.write data.toString()
+    
+    coffee.stdout.on 'data', (data) ->
+        print data.toString()
+    
+    coffee.on 'exit', (code) ->
+        callback?() if code is 0
     
 task 'compile:less', 'compiles less', (options) ->
     # set the paths
@@ -76,6 +95,7 @@ task 'compile:less', 'compiles less', (options) ->
     
     less.on 'exit', (code) ->
         callback?() if code is 0
+        
 task 'compile:moustache', 'compile moustache templates', (options) ->
     false
     
