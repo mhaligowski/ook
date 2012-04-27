@@ -8,3 +8,4 @@ define [
         Router.initialize()
         
         # initialize bootstrap dropdown menus
+        $(".dropdown-toggle").dropdown()
