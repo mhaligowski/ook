@@ -1,5 +1,5 @@
 define [
-    'zepto'
+    'jQuery'
     'Underscore'
     'Backbone'
     'router'

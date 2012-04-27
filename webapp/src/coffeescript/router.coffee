@@ -1,4 +1,4 @@
-define [ "zepto", "Underscore", "Backbone"], ($, _, Backbone, Session) ->
+define [ "jQuery", "Underscore", "Backbone"], ($, _, Backbone, Session) ->
   AppRouter = Backbone.Router.extend(
     routes:
       "projects": "showProjects"

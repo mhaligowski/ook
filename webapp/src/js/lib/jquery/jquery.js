@@ -1,0 +1,1 @@
+define(['lib/require/order!lib/jquery/jquery.min'], function(){  return $; });
