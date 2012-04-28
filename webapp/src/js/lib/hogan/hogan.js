@@ -1,1 +1,0 @@
-define(['order!lib/hogan/hogan.min'], function(){  return Hogan; });

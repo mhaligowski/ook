@@ -12,7 +12,6 @@ option '-i', '--img [DIR]', 'directory suffix for images'
 option '-j', '--js [DIR]', 'directory suffix for javascript'
 option '-l', '--less_src file', 'main file for less'
 option '-t', '--less_out file', 'target file for less'
-option '-m', '--mustache_src', 'mustache source dir'
 
 # default options
 default_options =
@@ -24,7 +23,6 @@ default_options =
     img: 'img/'
     js: 'js/'
     css: 'css/'
-    mustache_src: 'mustache/*.mustache'
 
 task 'mkdirs', 'create the output directory (if it does not exist)', (options) ->
     output_dir = options.output ? default_options.output
@@ -97,31 +95,7 @@ task 'compile:less', 'compiles less', (options) ->
     
     less.on 'exit', (code) ->
         callback?() if code is 0
-        
-task 'compile:mustache', 'compile mustache templates', (options) ->
-    # prepare directories
-    source = options.source ? default_options.source
-    mustache_dir = options.mustache_src ? default_options.mustache_src
-    
-    output = options.output ? default_options.output
-    js_dir = options.js ? default_options.js
-    
-    # create write stream    
-    ws = fs.createWriteStream( output + js_dir + 'templates.js', { 'flags': 'w' } )
-
-    hogan = spawn 'hulk', [ source + mustache_dir ]
-    
-    hogan.stderr.on 'data', (data) ->
-        process.stderr.write data.toString()
-
-    hogan.stdout.on 'data', (data) ->
-        output = data.toString()
-        ws.write(output)
-    
-    hogan.on 'exit', (code) ->
-        ws.end()
-        callback?() if code is 0
-    
+            
 task 'all', 'compile everything and copy to output directory', (options) ->
     # make dirs first
     invoke 'mkdirs'
@@ -133,4 +107,3 @@ task 'all', 'compile everything and copy to output directory', (options) ->
     # compile jobs are last
     invoke 'compile:less'
     invoke 'compile:coffee'
-    invoke 'compile:mustache'
