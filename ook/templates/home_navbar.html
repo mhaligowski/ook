@@ -20,7 +20,7 @@
             <a href="#" class="dropdown-toggle">Books<b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li class="nav-header">Booklists</li>
-                {% for booklist in booklists %}
+                {% for booklist in user.booklist_set.all %}
                   <li class="navbar-booklist">
                     <a href="#booklist/{{ booklist.id }}"> {{ booklist.name }}</a>
                   </li>
