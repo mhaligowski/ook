@@ -5,16 +5,12 @@ define [
     'router'
     'views/main_view'
     'views/navbar_view'
-    ], ($, _, Backbone, Router, MainView, Navbar) ->
+    ], ($, _, Backbone, Router, MainView, NavbarView) ->
     initialize: ->
-        # initialize bootstrap and shit
-        $(".dropdown-toggle").dropdown()
-
         # initialize the history
         Router.initialize()
         
         # now, to the main views
-        navBarMainView = Navbar.mainView
-        new navBarMainView
+        new NavbarView
         new MainView
         
