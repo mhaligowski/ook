@@ -1,12 +1,12 @@
 define [ "jQuery", "Underscore", "Backbone"], ($, _, Backbone, Session) ->
   AppRouter = Backbone.Router.extend(
     routes:
-      "projects": "showProjects"
+      "booklist/:booklistId": "showBooklist"
       "users": "showUsers"
       "*actions": "defaultAction"
 
-    showProjects: ->
-      console.log "showProject"
+    showBooklist: (booklistId) ->
+      console.log "showBooklist", booklistId
 
     showUsers: ->
       console.log "showUsers"
