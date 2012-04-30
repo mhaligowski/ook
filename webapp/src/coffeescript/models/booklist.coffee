@@ -1,6 +1,7 @@
-define ['Underscore', 'Backbone'], (_, Backbone) ->
+define ['jQuery', 'Underscore', 'Backbone'], ($, _, Backbone) ->
     Backbone.Model.extend
         defaults:
-            id    : -1
             name  : "unknown"
-            owner : null
+            owner : $.cookie("api-user-url").replace(/["']/g,"")
+        url: ->
+            '/api/v1/booklist/'

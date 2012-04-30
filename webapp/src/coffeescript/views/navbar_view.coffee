@@ -10,46 +10,47 @@ define [
 			tagName : 'li'
 			className : 'navbar-booklist'
 			template : _.template '<a href="#booklist/<%= id %>"><%= name %></a>'
-			initialize : =>
-				# initialize the booklist_item. do nothing yet.
-				console.log "BooklistItemView.initialize"
-			render : =>
+			render : ->
 				($ @el).html @template @model.toJSON()
 				@
 			
 		BooklistsSubmenuView = Backbone.View.extend 
 			tagName : 'li'
 			id : 'navbar-books'
-			initialize : (options) =>
-				console.log "BooklistSubmenuView.initialize"
+			initialize : (options) ->
 				$(".dropdown-toggle").dropdown()
 				
 				# initialize the items
-				@booklist = options.booklist
+				@booklists = options.booklist
 				
-				for item in $ "li.navbar-booklist"
-					do (item) =>
-						booklistItem = new BooklistItemView $ item
-						@booklist.push booklistItem.model
+				_.each $("li.navbar-booklist"), (item) =>
+					booklistItem = new BooklistItemView $ item
+					@booklists.push booklistItem.model
+						
+				# when a booklist is added, addItem
+				@booklists.bind 'add', @addItem, @
 				
-			render : =>
+			render : ->
 				# 1. clear all booklist items
-				$("navbar-booklist").remove()
+				$("li.navbar-booklist").remove()
 				
 				# 2. for each elem in items render
 				#    and add to list
-				for item in @items
-					do (item) =>
-						($ @).append item.render().el
+				@booklists.each (item) ->
+					console.log item
+					blv = new BooklistItemView
+						model: item
+					($ @).append blv.render().el
 				@
+				
+			addItem : (item) ->
+				@render()
 
 		NavbarView = Backbone.View.extend
 			tagName : 'div'
 			id : 'navbar-view'
 			
 			initialize : (options) =>
-				console.log "NavbarView.initialize"
-				
 				# initialize booklist collection
 				@booklist = options.booklist
 				
