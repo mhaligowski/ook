@@ -7,18 +7,18 @@ define [
 	'views/modals/add_booklist_modal'
 	], ($, _, Backbone, Booklist, BooklistCollection, AddBooklistModal) ->
 		BooklistItemView = Backbone.View.extend
-			tagName    : 'li'
-			className  : 'navbar-booklist'
-			template   : _.template '<a href="#booklist/<%= id %>"><%= name %></a>'
+			tagName : 'li'
+			className : 'navbar-booklist'
+			template : _.template '<a href="#booklist/<%= id %>"><%= name %></a>'
 			initialize : =>
 				# initialize the booklist_item. do nothing yet.
 				console.log "BooklistItemView.initialize"
-			render     : =>
+			render : =>
 				($ @el).html @template @model.toJSON()
 				@
 			
 		BooklistsSubmenuView = Backbone.View.extend 
-			tagName    : 'li'
+			tagName : 'li'
 			id : 'navbar-books'
 			initialize : (options) =>
 				console.log "BooklistSubmenuView.initialize"
