@@ -5,15 +5,23 @@ define [
     'router'
     'views/main_view'
     'views/navbar_view'
-    'views/modals/add_booklist_modal'
-    ], ($, _, Backbone, Router, MainView, NavbarView, AddBooklistModal) ->
+    'collections/booklist_list'
+    ], ($, _, Backbone, Router, MainView, NavbarView, BooklistCollection) ->
     initialize: ->
+        console.log "initialize"
+        
         # initialize the history
         Router.initialize()
+
+        # initialize collections
+        b = new BooklistCollection
         
         # now, to the main views
-        new NavbarView $ "#navbar-view"
-        new MainView $ "#main-view"
+        new NavbarView
+            el: $ "#navbar-view"
+            booklist: b
+            
+        new MainView
+            el: $ "#main-view"
+            booklist: b
         
-        # initialize modals 
-        new AddBooklistModal $ "#add-booklist-modal"
