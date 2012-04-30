@@ -95,7 +95,12 @@ task 'compile:less', 'compiles less', (options) ->
     
     less.on 'exit', (code) ->
         callback?() if code is 0
-            
+
+task 'clean', 'cleans the given directory', (options) ->
+    output_dir = options.output ? default_options.output
+    
+    wrench.rmdirRecursive output_dir
+    
 task 'all', 'compile everything and copy to output directory', (options) ->
     # make dirs first
     invoke 'mkdirs'
