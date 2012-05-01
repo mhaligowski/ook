@@ -19,28 +19,33 @@ define [
 			id : 'navbar-books'
 			initialize : (options) ->
 				$(".dropdown-toggle").dropdown()
+
+				@booklists = options.booklists
+
+				@booklists.fetch
+					beforeSend: (xhr) ->
+						xhr.setRequestHeader "Authorization", "ApiKey " + $.cookie("api-id") + ":" + $.cookie("api-key")
+					success: =>
+						@render()
 				
-				# initialize the items
-				@booklists = options.booklist
-				
-				_.each $("li.navbar-booklist"), (item) =>
-					booklistItem = new BooklistItemView $ item
-					@booklists.push booklistItem.model
-						
 				# when a booklist is added, addItem
 				@booklists.bind 'add', @addItem, @
 				
 			render : ->
 				# 1. clear all booklist items
 				$("li.navbar-booklist").remove()
+
+				# 2. find the divider - items will be added BEFORE
+				elem = @.$el.find "ul.dropdown-menu > li.divider"
 				
-				# 2. for each elem in items render
+				# 3. for each elem in items render
 				#    and add to list
-				@booklists.each (item) ->
-					console.log item
+				@booklists.each (item) =>
 					blv = new BooklistItemView
 						model: item
-					($ @).append blv.render().el
+					
+					elem.before blv.render().el
+
 				@
 				
 			addItem : (item) ->
@@ -52,16 +57,16 @@ define [
 			
 			initialize : (options) =>
 				# initialize booklist collection
-				@booklist = options.booklist
+				@booklists = options.booklist
 				
 				# initialize submenu item
 				@booklistsItem = new BooklistsSubmenuView
 					el: $ "#navbar-books"
-					booklist: @booklist
+					booklists: @booklists
 				
 				# initialize modal
 				new AddBooklistModal
 					el: $ "#add-booklist-modal"
-					booklist: @booklist
+					booklists: @booklists
 					
 		NavbarView
