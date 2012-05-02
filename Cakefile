@@ -25,13 +25,18 @@ default_options =
     css: 'css/'
 
 task 'mkdirs', 'create the output directory (if it does not exist)', (options) ->
+    print "[mkdirs]"
+    
     output_dir = options.output ? default_options.output
+
+    print "Creating output dir " + output_dir + "..."
     wrench.mkdirSyncRecursive output_dir, 0o0777;
     
     parts = ['img/', 'js/', 'css/']
         
     for p in parts
-        wrench.mkdirSyncRecursive output_dir + p
+        print "Creating output dir " + output_dir + p + "..."
+        wrench.mkdirSyncRecursive output_dir + p, 0o0777
         
 task 'copy:images', 'copy images from source dir to target', (options) ->
     s = options.img ? default_options.img
