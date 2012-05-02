@@ -5,7 +5,7 @@ env:
   - PYTHONPATH='.'
 install:
   - pip install -r requirements-test.txt -q --use-mirrors
-  - npm install coffee-script
-  - cake all
+  - npm install coffee-script wrench less
 script:
+  - cake all
   - django-admin.py test profiles books --settings="ook.development"

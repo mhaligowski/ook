@@ -3,7 +3,8 @@ define [
     'Underscore'
     'Backbone'
     'models/booklist'
-    ], ($, _, Backbone, Booklist) ->
+    'views/modals/add_book_modal'
+    ], ($, _, Backbone, Booklist, AddBookModal) ->
         PagePaginator = Backbone.View.extend
             initialize: (options) ->
                 console.log options
@@ -12,10 +13,16 @@ define [
             el: $ "#booklist-view"
         
             initialize: ->
+                # make title element
                 @title = @.$ "#booklist-title"
+                
+                #initialize modal
+                
                 
             setBooklist: (booklist, clbk) ->
                 @booklist = booklist
+                
+                # issue booklist to modal
                 
                 if clbk
                     clbk()
