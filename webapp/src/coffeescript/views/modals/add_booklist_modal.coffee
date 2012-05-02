@@ -1,6 +1,6 @@
 define [ 'jQuery', 'Underscore', 'Backbone', 'models/booklist' ], ($, _, Backbone, Booklist) ->
     AddBooklistModalView = Backbone.View.extend
-        el : $("#add-booklist-modal")
+        el : $ "#add-booklist-modal"
         
         initialize: (options) ->
             @booklists = options.booklists

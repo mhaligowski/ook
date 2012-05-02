@@ -10,8 +10,17 @@ define [ 'jQuery', 'Underscore', 'Backbone'], ($, _, Backbone) ->
             "click button": "submit"
             
         submit: ->
-            console.log "submitted!"
+            # get the data
+            data = {}
+            for item in @.$("form").serializeArray()
+                do (item) ->
+                    data[item.name] = item.value
+
+            # it's a form not to be sent
             false
+            
+        setBooklist: (booklist) ->
+            @booklist = booklist
             
     new AddBookModalView
         

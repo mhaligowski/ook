@@ -16,19 +16,17 @@ define [
                 # make title element
                 @title = @.$ "#booklist-title"
                 
-                #initialize modal
-                
                 
             setBooklist: (booklist, clbk) ->
                 @booklist = booklist
                 
                 # issue booklist to modal
+                AddBookModal.setBooklist @booklist
                 
                 if clbk
                     clbk()
                 
             render: ->
-                console.log "render"
                 if @booklist
                     @title.html @booklist.get "name"
                 @
