@@ -3,7 +3,7 @@ define [ 'jQuery', 'Underscore', 'Backbone', 'models/booklist' ], ($, _, Backbon
         el : $("#add-booklist-modal")
         
         initialize: (options) ->
-            @booklists = options.booklist
+            @booklists = options.booklists
         
         events:
             'click #add-booklist-modal-add-button' : "addBooklist"
@@ -24,8 +24,6 @@ define [ 'jQuery', 'Underscore', 'Backbone', 'models/booklist' ], ($, _, Backbon
                     @clearStatus()
                     @toggleSuccess()
                     
-                    console.log model
-                    console.log response
                     # add to the booklists
                     @booklists.add model
                 error: (model, response) =>
