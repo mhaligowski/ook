@@ -1,5 +1,4 @@
-<!-- navbar -->
-<div class="navbar navbar-fixed-top" id="navbar-view">
+<div id="navbar-view" class="navbar navbar-fixed-top" >
   <div class="navbar-inner">
     <div class="container">
       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -8,15 +7,13 @@
         <span class="icon-bar"></span>
       </a>
 
-      <!-- logo -->
     <a class="brand" href="#">Ook</a>
 
     <div class="nav-collapse">
         <ul class="nav">
           <li class="divider-vertical"></li>
 
-          <!-- booklists -->
-          <li class="dropdown" id="navbar-books">
+          <li id="navbar-books" class="dropdown" >
             <a href="#" class="dropdown-toggle">Books<b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li class="nav-header">Booklists</li>
@@ -27,13 +24,11 @@
             </ul>
           </li>
           
-          <!-- Readers -->
           <li class="divider-vertical"></li>
           <li><a href="#contact">Readers</a></li>
 
-          <!-- profile -->
           <li class="divider-vertical"></li>
-          <li class="dropdown" id="navbar-me">
+          <li id="navbar-me" class="dropdown" >
             <a href="#about" class="dropdown-toggle">Me<b class="caret"></b></a>
             <ul class="dropdown-menu">
                 <li class="nav-header">{{ user.email }}</li>
@@ -44,7 +39,7 @@
           
 
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
     </div>
   </div>
 </div>

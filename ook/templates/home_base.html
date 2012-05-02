@@ -9,33 +9,33 @@
 
 <body>
     {% block head %}
-      {% include "home_add_booklist_modal.html" %}
+      {% include "modals.html" %}
       {% include "home_navbar.html" %}
-      {% include "confirmation_modal.html" %}
     {% endblock %}
 
-    <div class="container" id="main-container">
+    <div id="main-container" class="container" >
     {% block pages %}
       {% include "booklist.html" %}
     {% endblock %}
     </div>
     
-    <div class="container" id="page-footer-container">
+    <div id="page-footer-container" class="container" >
       <hr>
       <footer>
         test
       </footer>
     </div>
     
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster (libraries) -->
+    <!--
+          Le javascript
+          ================================================== 
+          Placed at the end of the document so the pages load faster (libraries)
+    -->
     <script>
-      <!-- le init -->
+      // init data
       {% autoescape off %}
         initial_booklist_data = {{ initial_data }}
       {% endautoescape %}
-      
     </script>
     <script data-main="{{ MEDIA_URL }}/js/main" src="{{ MEDIA_URL }}/js/lib/require/require.js"></script>
 </body>
