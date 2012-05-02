@@ -1,10 +1,10 @@
 language: python
 python:
   - "2.7"
-  - "pypi"
 env:
   - PYTHONPATH='.'
 install:
   - pip install -r requirements-test.txt -q --use-mirrors
+  - npm install coffee-script
 script:
   - django-admin.py test profiles books --settings="ook.development"
