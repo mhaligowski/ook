@@ -14,9 +14,11 @@
       {% include "confirmation_modal.html" %}
     {% endblock %}
 
+    <div class="container" id="main-container">
     {% block pages %}
       {% include "booklist.html" %}
     {% endblock %}
+    </div>
     
     <div class="container" id="page-footer-container">
       <hr>
@@ -24,9 +26,17 @@
         test
       </footer>
     </div>
-      <!-- Le javascript
+    
+    <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster (libraries) -->
+    <script>
+      <!-- le init -->
+      {% autoescape off %}
+        initial_booklist_data = {{ initial_data }}
+      {% endautoescape %}
+      
+    </script>
     <script data-main="{{ MEDIA_URL }}/js/main" src="{{ MEDIA_URL }}/js/lib/require/require.js"></script>
 </body>
 </html>

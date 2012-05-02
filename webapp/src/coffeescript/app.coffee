@@ -8,20 +8,23 @@ define [
     'collections/booklist_list'
     ], ($, _, Backbone, Router, MainView, NavbarView, BooklistCollection) ->
     initialize: ->
-        console.log "initialize"
-        
-        # initialize the history
-        Router.initialize()
-
         # initialize collections
-        b = new BooklistCollection
+        b = new BooklistCollection 
         
         # now, to the main views
-        new NavbarView
-            el: $ "#navbar-view"
-            booklist: b
-            
-        new MainView
-            el: $ "#main-view"
-            booklist: b
+        NavbarView.setBooklists b
+        MainView.setBooklists b
+                    
+        # set the booklist data (now, as the events are binded)
+        b.add initial_booklist_data
+
+        # initialize the history
+        Router.initialize()
         
+        # setInterval
+        setInterval ->
+                b.fetch 
+                    beforeSend: (xhr) ->
+                        xhr.setRequestHeader "Authorization", "ApiKey " + $.cookie("api-id") + ":" + $.cookie("api-key")
+                    add: true
+            , 5 * 60 * 1000 #every two minutes

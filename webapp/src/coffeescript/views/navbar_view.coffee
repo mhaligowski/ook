@@ -17,19 +17,10 @@ define [
 		BooklistsSubmenuView = Backbone.View.extend 
 			tagName : 'li'
 			id : 'navbar-books'
-			initialize : (options) ->
+			el: $ "#navbar-books"
+			initialize : ->
 				$(".dropdown-toggle").dropdown()
-
-				@booklists = options.booklists
-
-				@booklists.fetch
-					beforeSend: (xhr) ->
-						xhr.setRequestHeader "Authorization", "ApiKey " + $.cookie("api-id") + ":" + $.cookie("api-key")
-					success: =>
-						@render()
-				
-				# when a booklist is added, addItem
-				@booklists.bind 'add', @addItem, @
+				@render()
 				
 			render : ->
 				# 1. clear all booklist items
@@ -40,33 +31,34 @@ define [
 				
 				# 3. for each elem in items render
 				#    and add to list
-				@booklists.each (item) =>
-					blv = new BooklistItemView
-						model: item
-					
-					elem.before blv.render().el
+				if @booklists
+					@booklists.each (item) ->
+						blv = new BooklistItemView
+							model: item
+						
+						elem.before blv.render().el
 
 				@
+			setBooklists: (booklists) ->
+				@booklists = booklists
+				@booklists.bind "add", @render, @
 				
-			addItem : (item) ->
-				@render()
-
 		NavbarView = Backbone.View.extend
 			tagName : 'div'
 			id : 'navbar-view'
-			
-			initialize : (options) =>
-				# initialize booklist collection
-				@booklists = options.booklist
-				
+			el: $ "#navbar-view"
+
+			initialize : (options) ->
 				# initialize submenu item
 				@booklistsItem = new BooklistsSubmenuView
-					el: $ "#navbar-books"
-					booklists: @booklists
-				
+					
 				# initialize modal
 				new AddBooklistModal
 					el: $ "#add-booklist-modal"
-					booklists: @booklists
 					
-		NavbarView
+			setBooklists: (booklists) ->
+				@booklists = booklists
+				@booklistsItem.setBooklists booklists
+				
+				
+		new NavbarView

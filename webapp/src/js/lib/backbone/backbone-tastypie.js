@@ -60,8 +60,6 @@
 		
 		return Backbone.oldSync( method, model, options );
 	};
-
-	Backbone.Model.prototype.idAttribute = 'resource_uri';
 	
 	Backbone.Model.prototype.url = function() {
 		// Use the id if possible
