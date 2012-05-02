@@ -14,5 +14,6 @@ require [
     'lib/require/order!lib/jquery/jquery.cookie'
     'lib/require/order!lib/backbone/backbone.min',
     'lib/require/order!lib/backbone/backbone-tastypie',
+    'lib/require/order!lib/backbone/backbone-relational',
 ], (App) ->
     App.initialize()
