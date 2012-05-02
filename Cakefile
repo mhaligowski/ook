@@ -25,20 +25,21 @@ default_options =
     css: 'css/'
 
 task 'mkdirs', 'create the output directory (if it does not exist)', (options) ->
-    print "[mkdirs]"
+    print "[mkdirs]\n"
     
     output_dir = options.output ? default_options.output
 
-    print "Creating output dir " + output_dir + "..."
+    print "Creating output dir " + output_dir + "...\n"
     wrench.mkdirSyncRecursive output_dir, 0o0777;
     
     parts = ['img/', 'js/', 'css/']
         
     for p in parts
-        print "Creating output dir " + output_dir + p + "..."
+        print "Creating output dir " + output_dir + p + "...\n"
         wrench.mkdirSyncRecursive output_dir + p, 0o0777
         
 task 'copy:images', 'copy images from source dir to target', (options) ->
+    print "[copy:images]\n"
     s = options.img ? default_options.img
     source = options.source ? default_options.source
     output = options.output ? default_options.output
@@ -46,6 +47,7 @@ task 'copy:images', 'copy images from source dir to target', (options) ->
     wrench.copyDirSyncRecursive (source + s), (output + s)
 
 task 'copy:js', 'copy static javascript (libs)', (options) ->
+    print "[copy:js]\n"
     ###
     Copies javascript files (not compiled)
     ###
@@ -56,6 +58,7 @@ task 'copy:js', 'copy static javascript (libs)', (options) ->
     wrench.copyDirSyncRecursive (source + s), (output + s)
     
 task 'compile:coffee', 'compiles coffescript', (options) ->
+    print "[compile:coffee]\n"
     ###
     Compiles coffeescript files
     ###
@@ -79,6 +82,7 @@ task 'compile:coffee', 'compiles coffescript', (options) ->
         callback?() if code is 0
     
 task 'compile:less', 'compiles less', (options) ->
+    print "[compile:less]\n"
     # set the paths
     src_dir = options.source ? default_options.source
     output_dir = options.output ? default_options.output
@@ -102,6 +106,8 @@ task 'compile:less', 'compiles less', (options) ->
         callback?() if code is 0
 
 task 'clean', 'cleans the given directory', (options) ->
+    print "[clean]\n"
+    
     output_dir = options.output ? default_options.output
     
     wrench.rmdirRecursive output_dir
