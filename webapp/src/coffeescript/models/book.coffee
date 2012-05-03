@@ -1,5 +1,5 @@
 define ['Underscore', 'Backbone'], (_, Backbone) ->
-    Backbone.Model.extend
+    Backbone.RelationalModel.extend
         defaults:
             id        : -1
             title     : "untitled"

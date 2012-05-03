@@ -9,12 +9,12 @@
 (function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		// An AMD compatible require library is available
-		define(['Underscore', 'Backbone'], factory);
+		define(['exports', 'Underscore', 'Backbone'], factory);
 	} else {
 		// No require library, assume backbone is available and edit global
 		factory(_, Backbone);
 	}
-}(function(_, Backbone) {
+}(function(exports, _, Backbone) {
 	Backbone.Relational = {
 		showWarnings: true
 	};
