@@ -54,7 +54,8 @@ class ApiTest(TestCase):
         api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
         url = reverse('api_dispatch_list',
                       kwargs={'api_name':'v1',
-                              'resource_name': 'book'})
+                              'resource_name': 'book',
+                              'booklist_pk': booklist.pk})
 
         data = json.dumps({
             'title': title,
@@ -63,7 +64,7 @@ class ApiTest(TestCase):
             'booklist': reverse('api_dispatch_detail',
                              kwargs={'pk': booklist.pk,
                                      'api_name': 'v1',
-                                     'resource_name': 'booklist'})
+                                     'resource_name': 'book'})
         })
         
         return self.client.post(url,

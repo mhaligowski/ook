@@ -20,42 +20,9 @@ class UserResource(ModelResource):
         
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
-    
-class BooklistResource(ModelResource):
-    owner = fields.ForeignKey(UserResource, 'owner')
-    books = fields.ToManyField('api.handlers.BookResource', 'book_set', null=True, blank=True)
-    filtering = {
-            'id': ALL_WITH_RELATIONS
-        }
-    
-    def override_urls(self):
-        return [
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/books%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_books'), name="api_get_books"),
-        ]
-        
-    def get_books(self, request, **kwargs):
-        try:
-            obj = self.cached_obj_get(request=request, **self.remove_api_resource_names(kwargs))
-        except ObjectDoesNotExist:
-            return HttpResponseGone()
-        except MultipleObjectsReturned:
-            return HttpMultipleChoices("More than one resource is found at this URI.")
-    
-        details = BookResource().get_list(request, booklist = obj)
-        
-        return details
 
-    class Meta:
-        list_allowed_methods = ['get', 'post', 'put', 'delete',]
-        queryset = Booklist.objects.all()
-        resource_name = 'booklist'
-        always_return_data = True
-
-        authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
-    
 class BookResource(ModelResource):
-    booklist = fields.ToOneField(BooklistResource, 'booklist')
+    booklist = fields.ToOneField('api.handlers.BooklistResource', 'booklist')
     
     class Meta:
         list_allowed_methods = ['get', 'post', 'put', 'delete',]
@@ -68,3 +35,25 @@ class BookResource(ModelResource):
         
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        
+    def override_urls(self):
+        return [
+            url(r"^booklist/(?P<booklist_pk>[\d]*)/(?P<resource_name>%s)/$" % self._meta.resource_name, self.wrap_view('dispatch_list'), name="api_dispatch_list"),
+        ]
+    
+class BooklistResource(ModelResource):
+    owner = fields.ForeignKey(UserResource, 'owner')
+    books = fields.ToManyField('api.handlers.BookResource', 'book_set', null=True, blank=True)
+    filtering = {
+            'id': ALL_WITH_RELATIONS
+        }
+    
+    class Meta:
+        list_allowed_methods = ['get', 'post', 'put', 'delete',]
+        queryset = Booklist.objects.all()
+        resource_name = 'booklist'
+        always_return_data = True
+
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+            

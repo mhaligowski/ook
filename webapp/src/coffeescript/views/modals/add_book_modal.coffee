@@ -16,6 +16,13 @@ define [ 'jQuery', 'Underscore', 'Backbone'], ($, _, Backbone) ->
                 do (item) ->
                     data[item.name] = item.value
 
+            @booklist.get('books').add data
+            @booklist.save null,
+                beforeSend: (xhr)->
+                    xhr.setRequestHeader "Authorization", "ApiKey " + $.cookie("api-id") + ":" + $.cookie("api-key")
+                success: ->
+                    alert "done!"
+
             # it's a form not to be sent
             false
             
