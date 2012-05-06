@@ -21,25 +21,6 @@ class UserResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
 
-class BookResource(ModelResource):
-    booklist = fields.ToOneField('api.handlers.BooklistResource', 'booklist')
-    
-    class Meta:
-        list_allowed_methods = ['get', 'post', 'put', 'delete',]
-        queryset = Book.objects.all()
-        resource_name = 'book'
-        always_return_data = True
-        filtering = {
-            'booklist': ALL_WITH_RELATIONS
-        }
-        
-        authentication = ApiKeyAuthentication()
-        authorization = DjangoAuthorization()
-        
-    def override_urls(self):
-        return [
-            url(r"^booklist/(?P<booklist_pk>[\d]*)/(?P<resource_name>%s)/$" % self._meta.resource_name, self.wrap_view('dispatch_list'), name="api_dispatch_list"),
-        ]
     
 class BooklistResource(ModelResource):
     owner = fields.ForeignKey(UserResource, 'owner')
@@ -57,3 +38,28 @@ class BooklistResource(ModelResource):
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
             
+class BookResource(ModelResource):
+    booklist = fields.ToOneField(BooklistResource, 'booklist')
+    
+    class Meta:
+        list_allowed_methods = ['get', 'post', 'put', 'delete',]
+        queryset = Book.objects.all()
+        resource_name = 'book'
+        always_return_data = True
+        filtering = {
+            'booklist': ALL_WITH_RELATIONS
+        }
+        
+        authentication = ApiKeyAuthentication()
+        authorization = DjangoAuthorization()
+        
+    def override_urls(self):
+        return [
+            url(r"^(?P<parent_resource_name>%s)/(?P<parent_pk>[\d]*)/(?P<resource_name>%s)/$" % (self.booklist.to._meta.resource_name, self._meta.resource_name),
+                self.wrap_view('dispatch_list'),
+                name="api_dispatch_list"),
+            url(r"^(?P<parent_resource_name>%s)/(?P<parent_pk>[\d]*)/(?P<resource_name>%s)/(?P<pk>[\d]*)/$" % (self.booklist.to._meta.resource_name, self._meta.resource_name),
+                self.wrap_view('dispatch_detail'),
+                name="api_dispatch_detail"),
+        ]
+

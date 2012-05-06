@@ -52,6 +52,7 @@ class DjangoAuthorization(Authorization):
             data = json.loads(request.raw_post_data)
             if not data.has_key(u"booklist"):
                 return False
+            
             booklist_pk = resolve(data["booklist"]).kwargs["pk"]
             booklist = None
             try:

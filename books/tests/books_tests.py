@@ -52,19 +52,13 @@ class BooksTest(TestCase):
 class ApiTest(TestCase):
     def create_book(self, user, title, author, isbn, booklist):
         api_string = "ApiKey %s:%s" % (user.username, user.api_key.key)
-        url = reverse('api_dispatch_list',
-                      kwargs={'api_name':'v1',
-                              'resource_name': 'book',
-                              'booklist_pk': booklist.pk})
+        url = "/api/v1/booklist/%d/book/" % booklist.pk
 
         data = json.dumps({
             'title': title,
             'author': author,
             'isbn': isbn,
-            'booklist': reverse('api_dispatch_detail',
-                             kwargs={'pk': booklist.pk,
-                                     'api_name': 'v1',
-                                     'resource_name': 'book'})
+            'booklist': "/api/v1/booklist/%d/" % booklist.pk
         })
         
         return self.client.post(url,
