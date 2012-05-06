@@ -101,6 +101,12 @@ class ApiTest(TestCase):
             name = "booklist1",
             owner = self.user1
         )
+        
+        self.booklist3 = Booklist.objects.create(
+            name = "booklist3",
+            owner = self.user1
+        )
+        
         self.user2 = User.objects.create_user('user2', 'user@user.com', 'passw0rd')
         self.booklist2 = Booklist.objects.create(
             name = "booklist2",
@@ -257,3 +263,51 @@ class ApiTest(TestCase):
         )
         
         self.assertEqual(response.status_code, 401)
+
+    def test_create_book_to_different_booklists(self):
+        """
+        Try creating a booklist with address /api/v1/booklist/[booklist1.pk]/books,
+        but with parent for booklist3. Should fail with HTTP response 400 Bad request.
+        """
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/" % self.booklist1.pk
+
+        data = json.dumps({
+            'title': "aBook",
+            'author': "anAuthor",
+            'isbn': "123",
+            'booklist': "/api/v1/booklist/%d/" % self.booklist3.pk
+        })
+        
+        response = self.client.post(url,
+                                    data,
+                                    content_type = "application/json",
+                                    ACCEPT = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_book_to_same_booklists(self):
+        """
+        Try creating a booklist with address /api/v1/booklist/[booklist3.pk]/books,
+        but with parent for booklist3. Should fail with HTTP response 400 Bad request.
+        """
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/" % self.booklist1.pk
+
+        data = json.dumps({
+            'title': "aBook",
+            'author': "anAuthor",
+            'isbn': "123",
+            'booklist': "/api/v1/booklist/%d/" % self.booklist1.pk
+        })
+        
+        response = self.client.post(url,
+                                    data,
+                                    content_type = "application/json",
+                                    ACCEPT = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+        self.assertEqual(response.status_code, 201)

@@ -11,6 +11,8 @@ from auth import DjangoAuthorization, ApiKeyAuthentication
 
 from books.models import Booklist, Book
 
+import validation
+
 class UserResource(ModelResource):
     class Meta:
         list_allowed_methods = ['get',]
@@ -52,6 +54,7 @@ class BookResource(ModelResource):
         
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
+        validation = validation.BookValidation()
         
     def override_urls(self):
         return [
@@ -62,4 +65,3 @@ class BookResource(ModelResource):
                 self.wrap_view('dispatch_detail'),
                 name="api_dispatch_detail"),
         ]
-
