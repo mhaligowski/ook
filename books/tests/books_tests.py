@@ -356,7 +356,7 @@ class ApiTest(TestCase):
                                     HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         self.assertEqual(response.status_code, 404)
 
-    def test_deleting_book_via_relativer(self):
+    def test_deleting_book_via_relative(self):
         api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
         url = "/api/v1/booklist/%d/book/%d/" % (self.booklist1.pk, self.book1.pk)
         
@@ -365,3 +365,35 @@ class ApiTest(TestCase):
                                 HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         
         self.assertEqual(response.status_code, 204)
+
+    def test_updateing_book_via_relative(self):
+        """
+        User should be able to edit book he created
+        """
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        
+        url = "/api/v1/booklist/%d/book/%d/" % (self.booklist1.pk, self.book1.pk)
+
+        data = json.dumps({
+            'title': "updated test",
+            'author': "John Doe",
+            'isbn': 321,
+            'booklist': reverse('api_dispatch_detail',
+                             kwargs={'pk': self.booklist1.pk,
+                                     'api_name': 'v1',
+                                     'resource_name': 'booklist'})
+        })
+
+        response = self.client.put(url,
+                                    data,
+                                    content_type = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+        # confirm status
+        self.assertEqual(response.status_code, 202)
+        
+        # redownload the book
+        b = Book.objects.get(pk = self.book1.pk)
+        self.assertEqual(b.title, "updated test")
+        
