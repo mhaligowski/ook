@@ -346,3 +346,12 @@ class ApiTest(TestCase):
                                     HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         self.assertEqual(response.status_code, 200)
         
+    def test_getting_book_from_other_booklist(self):
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/%d/" % (self.booklist3.pk, self.book1.pk)
+        
+        response = self.client.get(url,
+                                    ACCEPT = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        self.assertEqual(response.status_code, 404)
