@@ -355,3 +355,13 @@ class ApiTest(TestCase):
                                     HTTP_AUTHORIZATION = api_string,
                                     HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         self.assertEqual(response.status_code, 404)
+
+    def test_deleting_book_via_relativer(self):
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/%d/" % (self.booklist1.pk, self.book1.pk)
+        
+        response = self.client.delete(url,
+                                HTTP_AUTHORIZATION = api_string,
+                                HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        
+        self.assertEqual(response.status_code, 204)
