@@ -19,11 +19,24 @@ class DjangoAuthorization(Authorization):
         if request.method in ('OPTIONS', 'HEAD'):
             return True
 
+        # resolve the url
+        url = resolve(request.path)
+
+        # shortcut for the klass
         klass = self.resource_meta.object_class
 
         # If it doesn't look like a model, we can't check permissions.
         if not klass or not getattr(klass, '_meta', None):
             return True
+
+        # Get parent class
+        parent_klass = None
+        if "parent_resource_name" in url.kwargs:
+            relation = getattr(klass, url.kwargs["parent_resource_name"], None)
+            if relation:
+                parent_klass = relation.get_query_set().model
+
+        parent_pk = url.kwargs["parent_pk"] if parent_klass else None
 
         permission_map = {
             'GET': '%s.view_%s',
@@ -42,9 +55,6 @@ class DjangoAuthorization(Authorization):
         if not hasattr(request, 'user'):
             return False
 
-        # get the resource
-        url = resolve(request.path)
-
         # workaround for adding books to booklist
         # TODO: design it better, would ya?
         if klass == Book and request.method in ("POST", "PUT"):
@@ -62,12 +72,20 @@ class DjangoAuthorization(Authorization):
             
             if not request.user.has_perm('books.add_book_to_booklist', booklist):
                 return False
-
+    
         if url.url_name == "api_dispatch_detail":
             # get object
             obj = klass.objects.get(pk=url.kwargs["pk"])
-            
+    
             return request.user.has_perm(permission_code, obj)
+        elif url.url_name == 'api_dispatch_list' and parent_klass:
+            # get object
+            obj = parent_klass.objects.get(pk=parent_pk)
+
+            # child list permissions come from parent permissions            
+            permission_code = permission_map[request.method] % (parent_klass._meta.app_label, parent_klass._meta.module_name)
+            
+            return request.user.has_perm(permission_code)
         else:
             return request.user.has_perm(permission_code)
 

@@ -30,6 +30,10 @@ class BookValidation(Validation):
         return {}
         
     def validate_get(self, bundle, request=None):
+        """
+        Make sure that if the request is relational, the parent booklist is also the child's booklist
+        """
+        print "i'm here"
         return {}
         
     def validate_delete(self, bundle, request=None):

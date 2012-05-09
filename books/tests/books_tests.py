@@ -102,6 +102,13 @@ class ApiTest(TestCase):
             owner = self.user1
         )
         
+        self.book1 = Book.objects.create(
+            title = "aBook",
+            author = "anAuthor",
+            isbn = 123,
+            booklist = self.booklist1
+        )
+        
         self.booklist3 = Booklist.objects.create(
             name = "booklist3",
             owner = self.user1
@@ -311,3 +318,31 @@ class ApiTest(TestCase):
                                     HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
         
         self.assertEqual(response.status_code, 201)
+
+    def test_getting_book_from_booklist(self):
+        """
+        Get books with /api/v1/booklist/[booklistId]/book/
+        """
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/" % (self.booklist1.pk)
+        
+        response = self.client.get(url,
+                                    ACCEPT = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_getting_book_from_same_booklists(self):
+        """
+        Get books with /api/v1/booklist/[booklistId]/book/[bookId]/
+        """
+        api_string = "ApiKey %s:%s" % (self.user1.username, self.user1.api_key.key)
+        url = "/api/v1/booklist/%d/book/%d/" % (self.booklist1.pk, self.book1.pk)
+        
+        response = self.client.get(url,
+                                    ACCEPT = "application/json",
+                                    HTTP_AUTHORIZATION = api_string,
+                                    HTTP_X_REQUESTED_WITH = "XMLHttpRequest")
+        self.assertEqual(response.status_code, 200)
+        

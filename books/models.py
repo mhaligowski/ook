@@ -26,6 +26,11 @@ class Book(models.Model):
     author = models.CharField(max_length=2000)
     isbn = models.CharField(max_length=2000)
     booklist = models.ForeignKey(Booklist)
+    
+    class Meta:
+        permissions = (
+            ('view_book', 'Views the book'),
+        )
 
 ###
 # SIGNALS
@@ -52,6 +57,7 @@ def assign_booklist_permission(sender, instance, created, **kwargs):
             'books.change_booklist',
             'books.delete_booklist',
             'books.add_book_to_booklist',
+            'books.view_booklist',
         ]
         for perm in perms:
             assign(perm, instance.owner, instance)
@@ -66,5 +72,6 @@ def assign_book_permission(sender, instance, created, **kwargs):
         from guardian.shortcuts import assign
         assign('books.change_book', instance.booklist.owner, instance)
         assign('books.delete_book', instance.booklist.owner, instance)
+        assign('books.view_book', instance.booklist.owner, instance)
         
 post_save.connect(assign_book_permission, sender=Book)
