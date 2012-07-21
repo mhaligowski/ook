@@ -12,12 +12,12 @@
 (function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		// An AMD compatible require library is available
-		define(['Backbone'], factory);
+		define(['jQuery', 'Backbone'], factory);
 	} else {
 		// No require library, assume backbone is available and edit global
 		factory(Backbone);
 	}
-}(function (Backbone) {
+}(function ($, Backbone) {
 	/**
 	 * Override Backbone's sync function, to do a GET upon receiving a HTTP CREATED.
 	 * This requires 2 requests to do a create, so you may want to use some other method in production.
