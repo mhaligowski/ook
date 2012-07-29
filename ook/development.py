@@ -21,3 +21,5 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS += [ 'debug_toolbar', ]
+
+USERENA_ACTIVATION_REQUIRED = False
