@@ -4,7 +4,7 @@ define [ 'jQuery', 'Underscore', 'Backbone', 'models/booklist' ], ($, _, Backbon
         
         initialize: (options) ->
             @booklists = options.booklists
-        
+
         events:
             'click #add-booklist-modal-add-button' : "addBooklist"
         
@@ -20,15 +20,20 @@ define [ 'jQuery', 'Underscore', 'Backbone', 'models/booklist' ], ($, _, Backbon
             b.save null, 
                 beforeSend: (xhr) ->
                     xhr.setRequestHeader "Authorization", "ApiKey " + $.cookie("api-id") + ":" + $.cookie("api-key")
+
                 success: (model, response) =>
                     @clearStatus()
                     @toggleSuccess()
                     
                     # add to the booklists
                     @booklists.add model
+
                 error: (model, response) =>
                     @clearStatus()
                     @toggleError()
+
+        setBooklistsCollection : (booklists) ->
+            @booklists = booklists
 
         clearStatus: ->
             $("#add-booklist-modal-input").removeClass "error success"

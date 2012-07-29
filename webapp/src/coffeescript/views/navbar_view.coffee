@@ -53,12 +53,13 @@ define [
 				@booklistsItem = new BooklistsSubmenuView
 					
 				# initialize modal
-				new AddBooklistModal
+				@booklistsModal = new AddBooklistModal
 					el: $ "#add-booklist-modal"
 					
 			setBooklists: (booklists) ->
 				@booklists = booklists
 				@booklistsItem.setBooklists booklists
+				@booklistsModal.setBooklistsCollection booklists
 				
 				
 		new NavbarView
