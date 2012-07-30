@@ -1,9 +1,45 @@
 @import "lib/bootstrap/bootstrap.less";
 
+/**
+ * Configure fonts
+ */
+@font-face {
+    font-family: 'OptimusPrincepsRegular';
+    src: url('../img/fonts/optimusprinceps-webfont.eot');
+    src: url('../img/fonts/optimusprinceps-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../img/fonts/optimusprinceps-webfont.woff') format('woff'),
+         url('../img/fonts/optimusprinceps-webfont.ttf') format('truetype'),
+         url('../img/fonts/optimusprinceps-webfont.svg#OptimusPrincepsRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'OptimusPrincepsSemiBoldRg';
+    src: url('../img/fonts/optimusprincepssemibold-webfont.eot');
+    src: url('../img/fonts/optimusprincepssemibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../img/fonts/optimusprincepssemibold-webfont.woff') format('woff'),
+         url('../img/fonts/optimusprincepssemibold-webfont.ttf') format('truetype'),
+         url('../img/fonts/optimusprincepssemibold-webfont.svg#OptimusPrincepsSemiBoldRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+} 
+
 /*
  * Page elems
-*/
+ */
 body { padding-top:50px; }
+
+#title {
+    font-family: 'OptimusPrincepsRegular';
+    font-size: 144px;
+}
+
+.brand {
+    font-family: 'OptimusPrincepsSemiBoldRg';
+    font-size: 24px;
+}
 
 .main-view {
     overflow:hidden;
